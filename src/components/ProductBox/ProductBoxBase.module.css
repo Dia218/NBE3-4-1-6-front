@@ -1,0 +1,65 @@
+/* 전체 */
+.productBox {
+    display: flex;
+    align-items: center; /* 세로 정렬 */
+    justify-content: space-between; /* 아이템 간 간격을 균등하게 배치 */
+    width: 100%; /* 부모 요소의 100% */
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+}
+
+/* 상품 이미지 */
+.productImageContainer {
+    flex: 1; /* 이미지 영역을 충분히 차지하도록 */
+}
+.productImage {
+    width: 100%; /* 부모의 너비에 맞게 */
+    height: auto;
+    border-radius: 8px;
+}
+
+/* 상품 정보 */
+.productInfo {
+    flex: 4; /* 상품 정보를 좀 더 넓게 배치 */
+    text-align: left; /* 왼쪽 정렬 */
+    margin-left: 15px; /* 이미지와 상품 정보 사이의 간격 */
+}
+
+/* 상품명 */
+.productName {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin: 0;
+}
+
+/* 상품 설명 */
+.productDescription {
+    font-size: 14px;
+    color: #666;
+    margin: 10px 0;
+    line-height: 1.5;
+}
+
+/* 상품 가격 */
+.productPrice {
+    flex: 1; /* 가격을 중간에 배치 */
+    text-align: center; /* 가운데 정렬 */
+    font-size: 16px;
+    font-weight: bold;
+    color: #4CAF50;
+}
+
+/* 추가 콘텐츠 */
+.productAdditional {
+    width: 100%;
+    padding: 10px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+    display: inline-block;
+}
