@@ -56,5 +56,13 @@
 │   │       sellerProductService.ts
 │   │
 │   └───store # 애플리케이션 상태 관리
+│   └───types # DTO 정의
+│           addressDTO.ts
+│           deliveryDTO.ts
+│           orderDetailDTO.ts
+│           orderDTO.ts
+│           orderStatusDTO.ts
+│           productDTO.ts
+│
 └───tests
 ```
