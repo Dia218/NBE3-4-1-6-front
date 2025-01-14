@@ -47,6 +47,13 @@
 │               page.tsx
 │
 ├───components
+│   └───ProductBox
+│           ProductBoxBase.module.css
+│           ProductBoxBase.stories.tsx
+│           ProductBoxBase.tsx
+│           ProductBoxOption.module.css
+│           ProductBoxOption.tsx
+│
 ├───lib
 │   ├───api # API 서비스
 │   │       buyerOrderService.ts
@@ -55,7 +62,7 @@
 │   │       sellerOrderService.ts
 │   │       sellerProductService.ts
 │   │
-│   └───store # 애플리케이션 상태 관리
+│   ├───store # 애플리케이션 상태 관리
 │   └───types # DTO 정의
 │           addressDTO.ts
 │           deliveryDTO.ts
@@ -64,5 +71,10 @@
 │           orderStatusDTO.ts
 │           productDTO.ts
 │
+├───stories # StoryBook tool 실행을 위한 폴더
+│
 └───tests
+    ├───app
+    └───components
+            ProductBoxBase.test.tsx
 ```
