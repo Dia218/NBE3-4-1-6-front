@@ -8,12 +8,21 @@ import { sellerOrderService } from '@/lib/api/sellerOrderService';
 import { OrderDTO } from '@/lib/types/orderDTO';
 import { PageDTO } from '@/lib/types/pageDTO';
 import styles from './OrderManagement.module.css';
+import { useSearchParams } from 'next/navigation';
 
 export default function OrderManagementPage() {
+  const searchParams = useSearchParams();
   const [orderPage, setOrderPage] = useState<PageDTO<OrderDTO> | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<OrderDTO | null>(null);
   const [currentPage, setCurrentPage] = useState(0);
+  const [searchEmail, setSearchEmail] = useState('');
+
+  useEffect(() => {
+    const pageParam = searchParams.get('page');
+    const page = pageParam ? Number(pageParam) - 1 : 0;
+    setCurrentPage(page);
+  }, [searchParams]);
 
   useEffect(() => {
     fetchOrders();
