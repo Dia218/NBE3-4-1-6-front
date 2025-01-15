@@ -1,70 +1,57 @@
 'use client';
 
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PageLayout from '@/components/PageLayout/PageLayout';
 import ListLayout from '@/components/ListLayout/ListLayout';
 import Summary from '@/components/Summary/Summary';
+import { sellerOrderService } from '@/lib/api/sellerOrderService';
+import { OrderDTO } from '@/lib/types/orderDTO';
+import { PageDTO } from '@/lib/types/pageDTO';
 import styles from './OrderManagement.module.css';
 
-interface OrderGroup {
-  email: string;
-  orderDate: string;
-  items: {
-    productId: number;
-    productName: string;
-    productDescription: string;
-    productPrice: number;
-    productImageURL: string;
-    productStock: number;
-    quantity: number;
-  }[];
-  totalAmount: number;
-}
-
 export default function OrderManagementPage() {
-  const orders: OrderGroup[] = [
-    {
-      email: "example@gmail.com",
-      orderDate: "12.24 18:23",
-      items: [
-        {
-          productId: 1,
-          productName: "Columbia Nariñó",
-          productDescription: "커피콩",
-          productPrice: 5000,
-          productImageURL: "/coffee-sample.jpg",
-          productStock: 100,
-          quantity: 2
-        }
-      ],
-      totalAmount: 5000
-    },
-    {
-      email: "example2@gmail.com",
-      orderDate: "12.24 18:23",
-      items: [
-        {
-          productId: 2,
-          productName: "Columbia Nariñó",
-          productDescription: "커피콩",
-          productPrice: 5000,
-          productImageURL: "/coffee-sample.jpg",
-          productStock: 100,
-          quantity: 2
+  const [orderPage, setOrderPage] = useState<PageDTO<OrderDTO> | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState<OrderDTO | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
+
+  useEffect(() => {
+    fetchOrders();
+  }, [currentPage]);
+
+  const fetchOrders = async () => {
+    try {
+      setLoading(true);
+      const data = await sellerOrderService.getOrders(currentPage);
+      setOrderPage(data);
+      if (data.content.length > 0 && !selectedOrder) {
+        setSelectedOrder(data.content[0]);
+      }
+    } catch (err) {
+      console.error('Error fetching orders:', err);
+      setOrderPage({
+        content: [],
+        pageable: {
+          pageNumber: 0,
+          pageSize: 10
         },
-        {
-          productId: 3,
-          productName: "Columbia Nariñó",
-          productDescription: "커피콩",
-          productPrice: 5000,
-          productImageURL: "/coffee-sample.jpg",
-          productStock: 100,
-          quantity: 2
-        }
-      ],
-      totalAmount: 30000
+        totalElements: 0,
+        totalPages: 0
+      });
+    } finally {
+      setLoading(false);
     }
-  ];
+  };
+
+  if (loading) {
+    return (
+      <PageLayout>
+        <div className={styles.loadingContainer}>
+          <p>로딩 중...</p>
+        </div>
+      </PageLayout>
+    );
+  }
 
   return (
     <PageLayout>
@@ -76,34 +63,39 @@ export default function OrderManagementPage() {
       <div className={styles.pageContainer}>
         <div className={styles.mainContent}>
           <div className={styles.container}>
-            {orders.map((order, index) => (
-              <div key={index} className={styles.orderGroup}>
-                <div className={styles.orderHeader}>
-                  <p>{order.email}</p>
-                  <p>{order.orderDate} 배송 준비중</p>
+            {orderPage?.content && orderPage.content.length > 0 ? (
+              orderPage.content.map((order) => (
+                <div 
+                  key={order.orderId} 
+                  className={styles.orderGroup}
+                  onClick={() => setSelectedOrder(order)}
+                >
+                  <div className={styles.orderHeader}>
+                    <p>{order.customerEmail}</p>
+                    <p>{order.orderCreatedAt} {order.orderStatus}</p>
+                  </div>
+                  <ListLayout 
+                    products={order.orderDetails.map(detail => detail.product)}
+                  />
+                  <div className={styles.totalAmount}>
+                    <p>합계 {order.totalPrice}원</p>
+                  </div>
                 </div>
-                <ListLayout 
-                  products={order.items.map(item => ({
-                    productId: item.productId,
-                    productName: item.productName,
-                    productDescription: item.productDescription,
-                    productPrice: item.productPrice,
-                    productImageURL: item.productImageURL,
-                    productStock: item.productStock
-                  }))}
-                />
-                <div className={styles.totalAmount}>
-                  <p>합계 {order.totalAmount}원</p>
+              ))
+            ) : (
+              <div className={styles.orderGroup}>
+                <div className={styles.orderHeader}>
+                  <p>주문 내역이 없습니다</p>
                 </div>
               </div>
-            ))}
+            )}
           </div>
         </div>
         <div className={styles.sidebar}>
           <Summary 
-            email="example@gmail.com"
-            address="서울시 강남구 강남대로"
-            orderNumber="00000"
+            email=""
+            address=""
+            orderNumber=""
           />
         </div>
       </div>

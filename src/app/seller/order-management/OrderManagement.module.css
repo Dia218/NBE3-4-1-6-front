@@ -46,4 +46,38 @@
   padding: 1rem;
   text-align: right;
   font-weight: bold;
+}
+
+.loadingContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+}
+
+.emptyState {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 200px;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 2rem;
+}
+
+.emptyState p {
+  color: #666;
+  font-size: 1rem;
+}
+
+.emptySummary {
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  padding: 2rem;
+  text-align: center;
+}
+
+.emptySummary p {
+  color: #666;
+  font-size: 1rem;
 } 
