@@ -1,10 +1,9 @@
-import { OrderDTO } from "./OrderDTO";
-import { ProductDTO } from "./ProductDTO";
+import { ProductDTO } from './productDTO';
 
 export interface OrderDetailDTO {
     orderDetailId: number;
     productQuantity: number;
     orderPrice: number;
+    orderId: number;
     product: ProductDTO;
-    order: OrderDTO;
-  }
+}

@@ -1,15 +1,15 @@
-import { Address } from "./AddressDTO";
-import { DeliveryDTO } from "./DeliveryDTO";
-import { OrderDetailDTO } from "./OrderDetailDTO";
-import { OrderStatus } from "./OrderStatusDTO";
+import { OrderDetailDTO } from "./orderDetailDTO";
+import { OrderStatus } from "./orderStatusDTO";
 
 export interface OrderDTO {
   orderId: number;
   customerEmail: string;
-  address: Address;
-  orderCreatedAt: string; // ISO 8601 date string
+  baseAddress: string;
+  detailAddress: string;
+  zipCode: string;
+  orderCreatedAt: string;
   totalPrice: number;
   orderStatus: OrderStatus;
-  delivery: DeliveryDTO;
+  deliveryId: number | null;
   orderDetails: OrderDetailDTO[];
 }

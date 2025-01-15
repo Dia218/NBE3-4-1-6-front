@@ -1,9 +1,7 @@
 export interface PageDTO<T> {
-  content: T[];
-  pageable: {
-    pageNumber: number;
-    pageSize: number;
-  };
-  totalElements: number;
+  currentPageNumber: number;
+  pageSize: number;
   totalPages: number;
+  totalItems: number;
+  items: T[];
 } 

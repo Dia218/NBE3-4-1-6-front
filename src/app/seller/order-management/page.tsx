@@ -23,20 +23,19 @@ export default function OrderManagementPage() {
     try {
       setLoading(true);
       const data = await sellerOrderService.getOrders(currentPage);
+      console.log('Received data:', data);
       setOrderPage(data);
-      if (data.content.length > 0 && !selectedOrder) {
-        setSelectedOrder(data.content[0]);
+      if (data.items && data.items.length > 0 && !selectedOrder) {
+        setSelectedOrder(data.items[0]);
       }
     } catch (err) {
       console.error('Error fetching orders:', err);
       setOrderPage({
-        content: [],
-        pageable: {
-          pageNumber: 0,
-          pageSize: 10
-        },
-        totalElements: 0,
-        totalPages: 0
+        currentPageNumber: 0,
+        pageSize: 10,
+        totalPages: 0,
+        totalItems: 0,
+        items: []
       });
     } finally {
       setLoading(false);
@@ -63,8 +62,8 @@ export default function OrderManagementPage() {
       <div className={styles.pageContainer}>
         <div className={styles.mainContent}>
           <div className={styles.container}>
-            {orderPage?.content && orderPage.content.length > 0 ? (
-              orderPage.content.map((order) => (
+            {orderPage?.items && orderPage.items.length > 0 ? (
+              orderPage.items.map((order) => (
                 <div 
                   key={order.orderId} 
                   className={styles.orderGroup}
@@ -93,9 +92,9 @@ export default function OrderManagementPage() {
         </div>
         <div className={styles.sidebar}>
           <Summary 
-            email=""
-            address=""
-            orderNumber=""
+            email={selectedOrder?.customerEmail || ""}
+            address={`${selectedOrder?.baseAddress || ""} ${selectedOrder?.detailAddress || ""}`}
+            orderNumber={selectedOrder?.zipCode || ""}
           />
         </div>
       </div>
