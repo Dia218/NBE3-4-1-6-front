@@ -1,7 +1,7 @@
-import { Address } from "./addressDTO";
-import { DeliveryDTO } from "./deliveryDTO";
-import { OrderDetailDTO } from "./orderDetailDTO";
-import { OrderStatus } from "./orderStatusDTO";
+import { Address } from "./AddressDTO";
+import { DeliveryDTO } from "./DeliveryDTO";
+import { OrderDetailDTO } from "./OrderDetailDTO";
+import { OrderStatus } from "./OrderStatusDTO";
 
 export interface OrderDTO {
   orderId: number;
