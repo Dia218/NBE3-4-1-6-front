@@ -3,7 +3,7 @@ import ProductBoxBase from '../../components/ProductBox/ProductBoxBase';
 import { Meta, StoryFn } from '@storybook/react';
 
 export default {
-  title: 'ProductBoxBase',
+  title: 'Components/ProductBoxBase',
   component: ProductBoxBase,
 } as Meta;
 

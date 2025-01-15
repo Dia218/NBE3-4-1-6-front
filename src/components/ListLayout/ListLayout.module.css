@@ -1,0 +1,16 @@
+.listLayout {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* 행 간 간격 균등 분배 */
+  gap: 1px;
+  padding: 0px;
+}
+
+@media (min-width: 768px) {
+  .listLayout {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1px;
+  }
+}

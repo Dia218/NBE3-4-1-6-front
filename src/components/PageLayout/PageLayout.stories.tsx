@@ -3,7 +3,7 @@ import PageLayout from '../../components/PageLayout/PageLayout';
 import { Meta, StoryFn } from '@storybook/react';
 
 export default {
-  title: 'PageLayout',
+  title: 'Components/PageLayout',
   component: PageLayout,
 } as Meta;
 
