@@ -1,0 +1,30 @@
+import React from 'react';
+import styles from './Summary.module.css';
+
+interface SummaryProps {
+  email: string;
+  address: string;
+  orderNumber: string;
+}
+
+export default function Summary({ email, address, orderNumber }: SummaryProps) {
+  return (
+    <div className={styles.summary}>
+      <h2 className={styles.title}>Summary</h2>
+      <div className={styles.content}>
+        <div className={styles.section}>
+          <h3 className={styles.label}>이메일</h3>
+          <p className={styles.value}>{email}</p>
+        </div>
+        <div className={styles.section}>
+          <h3 className={styles.label}>주소</h3>
+          <p className={styles.value}>{address}</p>
+        </div>
+        <div className={styles.section}>
+          <h3 className={styles.label}>우편번호</h3>
+          <p className={styles.value}>{orderNumber}</p>
+        </div>
+      </div>
+    </div>
+  );
+} 

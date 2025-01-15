@@ -1,0 +1,49 @@
+.pageContainer {
+  display: flex;
+  gap: 2rem;
+  width: 100%;
+}
+
+.mainContent {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.sidebar {
+  width: 300px;
+  flex-shrink: 0;
+  height: fit-content;
+  position: sticky;
+  top: 2rem;
+}
+
+.container {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.orderGroup {
+  border: 1px solid #e5e5e5;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
+
+.orderHeader {
+  background-color: black;
+  color: white;
+  padding: 1rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.totalAmount {
+  border-top: 1px solid #e5e5e5;
+  padding: 1rem;
+  text-align: right;
+  font-weight: bold;
+} 
