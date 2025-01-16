@@ -20,7 +20,7 @@ const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
   return (
     <div className={styles.productBox}>
       <div className={styles.productImageContainer}>
-        <Image
+        <img
           src={image}
           alt={name}
           className={styles.productImage}
