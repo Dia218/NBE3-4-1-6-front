@@ -1,4 +1,4 @@
-import { ProductDTO } from './productDTO';
+import { ProductDTO } from './ProductDTO';
 
 export interface OrderDetailDTO {
     orderDetailId: number;

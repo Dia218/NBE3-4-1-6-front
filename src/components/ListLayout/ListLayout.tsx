@@ -1,6 +1,6 @@
 import React from 'react';
 import ProductBoxBase from '../ProductBox/ProductBoxBase';
-import { ProductDTO } from '../../lib/types/productDTO';
+import { ProductDTO } from '../../lib/types/ProductDTO';
 import styles from './ListLayout.module.css';
 
 interface ListLayoutProps {

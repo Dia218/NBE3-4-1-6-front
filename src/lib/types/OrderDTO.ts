@@ -1,5 +1,5 @@
-import { OrderDetailDTO } from "./orderDetailDTO";
-import { OrderStatus } from "./orderStatusDTO";
+import { OrderDetailDTO } from "./OrderDetailDTO";
+import { OrderStatus } from "./OrderStatusDTO";
 
 export interface OrderDTO {
   orderId: number;
