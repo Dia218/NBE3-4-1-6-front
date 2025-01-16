@@ -51,6 +51,28 @@ export default function OrderManagementPage() {
     }
   };
 
+  const handleSearchEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchEmail(e.target.value);
+  };
+
+  const filteredOrders = orderPage?.items.filter(order => 
+    order.customerEmail.toLowerCase().includes(searchEmail.toLowerCase())
+  );
+
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
+  const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const year = date.getFullYear().toString().slice(-2); // 마지막 두 자리
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // 01-12
+    const day = String(date.getDate()).padStart(2, '0'); // 01-31
+    const hours = String(date.getHours()).padStart(2, '0'); // 00-23
+    const minutes = String(date.getMinutes()).padStart(2, '0'); // 00-59
+    return `${year}-${month}-${day} ${hours}:${minutes}`;
+  };
+
   if (loading) {
     return (
       <PageLayout>
@@ -68,11 +90,21 @@ export default function OrderManagementPage() {
           상품 관리
         </button>
       </div>
+      
       <div className={styles.pageContainer}>
         <div className={styles.mainContent}>
+        <div className={styles.searchContainer}>
+        <input
+          type="text"
+          placeholder="이메일로 검색"
+          value={searchEmail}
+          onChange={handleSearchEmailChange}
+          className={styles.searchInput}
+        />
+      </div>
           <div className={styles.container}>
-            {orderPage?.items && orderPage.items.length > 0 ? (
-              orderPage.items.map((order) => (
+            {filteredOrders && filteredOrders.length > 0 ? (
+              filteredOrders.map((order) => (
                 <div 
                   key={order.orderId} 
                   className={styles.orderGroup}
@@ -80,7 +112,7 @@ export default function OrderManagementPage() {
                 >
                   <div className={styles.orderHeader}>
                     <p>{order.customerEmail}</p>
-                    <p>{order.orderCreatedAt} {order.orderStatus}</p>
+                    <p>{formatDate(order.orderCreatedAt)} {order.orderStatus}</p>
                   </div>
                   <ListLayout 
                     products={order.orderDetails.map(detail => detail.product)}
@@ -106,6 +138,25 @@ export default function OrderManagementPage() {
             orderNumber={selectedOrder?.zipCode || ""}
           />
         </div>
+      </div>
+      <div className={styles.pagination}>
+        {orderPage && orderPage.totalPages > 0 && (
+          <>
+            <button 
+              onClick={() => handlePageChange(currentPage - 1)} 
+              disabled={currentPage === 0}
+            >
+              이전
+            </button>
+            <span>{currentPage + 1 <= orderPage.totalPages ? currentPage + 1 : orderPage.totalPages} / {orderPage.totalPages}</span>
+            <button 
+              onClick={() => handlePageChange(currentPage + 1)} 
+              disabled={currentPage + 1 >= orderPage.totalPages}
+            >
+              다음
+            </button>
+          </>
+        )}
       </div>
     </PageLayout>
   );
