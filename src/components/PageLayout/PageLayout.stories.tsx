@@ -1,17 +1,21 @@
-import React from 'react';
-import PageLayout from '../../components/PageLayout/PageLayout';
-import { Meta, StoryFn } from '@storybook/react';
+import PageLayout from './PageLayout';
 
 export default {
   title: 'Components/PageLayout',
   component: PageLayout,
-} as Meta;
+};
 
-const DefaultContent = (
-  <div>
-    <h1>Welcome to the Layout Component</h1>
-    <p>This is a child component inside the Layout.</p>
-  </div>
+const MainContent = () => <div style={{ backgroundColor: '#f0f0f0', height: '100vh' }}>Main content here</div>;
+
+const SidebarContent = () => <div style={{ backgroundColor: '#ddd', padding: '20px' }}>Sidebar content</div>;
+
+export const WithSidebar = () => (
+  <PageLayout
+    mainContent={<MainContent />}
+    sidebarContent={<SidebarContent />}
+  />
 );
 
-export const Default: StoryFn = () => <PageLayout>{DefaultContent}</PageLayout>;
+export const WithoutSidebar = () => (
+  <PageLayout mainContent={<MainContent />} />
+);
