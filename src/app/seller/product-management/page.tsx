@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
+import PageLayout from '../../../components/PageLayout/PageLayout'; // Import PageLayout
 import ListLayout from '../../../components/ListLayout/ListLayout';
 import { getProducts } from '../../../lib/api/sellerProductService';
 import { ProductDTO } from '../../../lib/types/ProductDTO';
@@ -22,10 +23,7 @@ const ProductManagementPage: React.FC = () => {
   }, []);
 
   return (
-    <div>
-      <h1>Product Management</h1>
-      <ListLayout products={products} />  {/* ListLayout에 products 전달 */}
-    </div>
+    <PageLayout mainContent={<ListLayout products={products} />} />  // Pass ListLayout as mainContent
   );
 };
 
