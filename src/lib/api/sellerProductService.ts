@@ -20,48 +20,6 @@ export const getProducts = async (page: number = 0): Promise<ProductDTO[]> => {
 };
 
 /**
- * Creates a new product in the backend.
- * @param product The product details to create.
- * @returns A promise resolving to the created ProductDTO object.
- */
-export const createProduct = async (product: ProductDTO): Promise<ProductDTO> => {
-  const response = await fetch(BASE_URL, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(product),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to create product');
-  }
-  return await response.json();
-};
-
-/**
- * Updates an existing product in the backend.
- * @param productId The ID of the product to update.
- * @param product The updated product details.
- * @returns A promise resolving to the updated ProductDTO object.
- */
-export const updateProduct = async (
-  productId: number,
-  product: ProductDTO
-): Promise<ProductDTO> => {
-  const response = await fetch(`${BASE_URL}/${productId}`, {
-    method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify(product),
-  });
-  if (!response.ok) {
-    throw new Error('Failed to update product');
-  }
-  return await response.json();
-};
-
-/**
  * Deletes a product in the backend.
  * @param productId The ID of the product to delete.
  * @returns A promise resolving to void.
@@ -75,7 +33,12 @@ export const deleteProduct = async (productId: number): Promise<void> => {
   }
 };
 
-export async function submitProduct(
+
+/**
+ * Creates a new product in the backend.
+ * @param fromData The product details to create.
+ */
+export async function createProduct(
   formData : ProductRequestDTO
 ) {
   // fetch 전송 (아래의 코드 api로 분리 가능)
@@ -91,15 +54,21 @@ export async function submitProduct(
       if(!response.ok) {
           const errorData: ErrorDetails = await response.json()
           alert(`오류: ${errorData.message}`);
+          return;
       }
       
-      const data = await response.json();
       alert('상품 등록이 성공적으로 처리됐습니다.');
   } catch (error) {
+      console.log(error)
       alert('상품 등록 처리 중 오류가 발생했습니다.');
   }
 };
 
+
+/**
+ * Updates an existing product in the backend.
+ * @param formData The product details(includes productId) to create.
+ */
 export async function updateProduct(
   formData : ProductDTO
 ) {
@@ -117,9 +86,9 @@ export async function updateProduct(
 
           const errorData: ErrorDetails = await response.json()
           alert(`오류: ${errorData.message}`);
+          return;
       }
       
-      const data = await response.json();
       alert('상품 수정이 성공적으로 처리됐습니다.');
   } catch (error) {
       alert('상품 등록 처리 중 오류가 발생했습니다.');
