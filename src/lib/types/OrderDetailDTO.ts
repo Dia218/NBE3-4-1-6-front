@@ -1,4 +1,3 @@
-import { OrderDTO } from "./OrderDTO";
 import { ProductDTO } from "./ProductDTO";
 
 export interface OrderDetailDTO {
@@ -6,5 +5,4 @@ export interface OrderDetailDTO {
     productQuantity: number;
     orderPrice: number;
     product: ProductDTO;
-    order: OrderDTO;
   }
