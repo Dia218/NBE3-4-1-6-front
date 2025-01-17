@@ -28,10 +28,10 @@ export default function OrderManagementPage() {
     fetchOrders();
   }, [currentPage]);
 
-  const fetchOrders = async () => {
+  const fetchOrders = async (email?: string) => {
     try {
       setLoading(true);
-      const data = await sellerOrderService.getOrders(currentPage);
+      const data = await sellerOrderService.getOrders(currentPage, 10, email);
       console.log('Received data:', data);
       setOrderPage(data);
       if (data.items && data.items.length > 0 && !selectedOrder) {
@@ -53,6 +53,12 @@ export default function OrderManagementPage() {
 
   const handleSearchEmailChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearchEmail(e.target.value);
+  };
+
+  const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      fetchOrders(searchEmail);
+    }
   };
 
   const filteredOrders = orderPage?.items.filter(order => 
@@ -99,14 +105,15 @@ export default function OrderManagementPage() {
           placeholder="이메일로 검색"
           value={searchEmail}
           onChange={handleSearchEmailChange}
+          onKeyDown={handleKeyPress}
           className={styles.searchInput}
         />
       </div>
           <div className={styles.container}>
             {filteredOrders && filteredOrders.length > 0 ? (
-              filteredOrders.map((order) => (
+              filteredOrders.map((order, index) => (
                 <div 
-                  key={order.orderId} 
+                  key={`${order.orderId}-${index}`}
                   className={styles.orderGroup}
                   onClick={() => setSelectedOrder(order)}
                 >
