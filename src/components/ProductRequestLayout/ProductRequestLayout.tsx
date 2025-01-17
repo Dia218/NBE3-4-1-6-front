@@ -1,6 +1,6 @@
 "use client"
 
-import { submitProduct, updateProduct } from "@/lib/api/sellerProductService";
+import { createProduct, updateProduct } from "@/lib/api/sellerProductService";
 import { ProductDTO } from "@/lib/types/ProductDTO";
 import styles from './ProductRequestLayout.module.css';
 import { ProductRequestDTO } from "@/lib/types/ProductRequestDTO";
@@ -51,7 +51,7 @@ function ProductRequestLayout(
             productImageURL: form.productImageURL.value,
             productStock: form.productStock.value
           };
-          await submitProduct(createFormData);
+          await createProduct(createFormData);
         } else {
           const updateFormData : ProductDTO = {
             productId: product?.productId,
