@@ -8,6 +8,7 @@
   min-height: 100vh;
   margin: 0;
   padding: 0;
+  position: relative;
 }
 
 .header {
@@ -18,15 +19,32 @@
   margin-top: 0;
 }
 
+.body {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
 .content {
   background-color: var(--component-basic-color);
   color: var(--text-color);
   width: 80%;
-  max-width: 800px;
   min-height: 400px;
   padding: 20px;
   border-radius: 8px;
   box-shadow: var(--box-shadow-light);
   text-align: center;
   margin-top: 20px;
+  z-index: 0;
+  box-sizing: border-box;
+}
+
+.sidebar {
+  width: 400px;
+  background-color: var(--component-basic-color);
+  height: 100vh;
+  position: absolute;
+  top: 20px;
+  right: 0;
+  z-index: 1;
 }

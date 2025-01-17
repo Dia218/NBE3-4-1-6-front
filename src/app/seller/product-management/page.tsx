@@ -23,7 +23,7 @@ const ProductManagementPage: React.FC = () => {
   }, []);
 
   return (
-    <PageLayout mainContent={<ListLayout products={products} />} />  // Pass ListLayout as mainContent
+    <PageLayout mainContent={<ListLayout products={products} />} />  // PageLayout/mainContent에 ListLayout 전달하기
   );
 };
 
