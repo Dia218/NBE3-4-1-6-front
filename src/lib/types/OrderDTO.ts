@@ -13,3 +13,4 @@ export interface OrderDTO {
   delivery: DeliveryDTO;
   orderDetails: OrderDetailDTO[];
 }
+
