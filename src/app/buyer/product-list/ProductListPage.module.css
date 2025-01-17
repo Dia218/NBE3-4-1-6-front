@@ -1,0 +1,17 @@
+.container {
+    display: flex;
+    width: 100%;
+    gap: 20px;
+    padding: 20px;
+    position: relative;
+  }
+  
+  .clientProductRequestLayout {
+    position: fixed;
+    right: 20px;
+    top: 20px;
+    width: 30%;
+    height: calc(100vh - 40px);
+    overflow: hidden;
+    background-color: white;
+  }
