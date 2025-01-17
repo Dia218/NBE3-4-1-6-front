@@ -1,7 +1,6 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import PageLayout from '../../../components/PageLayout/PageLayout';
 import ListLayout from '../../../components/ListLayout/ListLayout';
 import { getProducts } from '../../../lib/api/sellerProductService';
 import { ProductDTO } from '../../../lib/types/ProductDTO';
