@@ -1,13 +1,14 @@
 import React from 'react';
-import Image from 'next/image';
 import styles from './ProductBoxBase.module.css';
+import { PageType } from '../../lib/enum/PageType';
+import ProductBoxOption from './ProductBoxOption';
 
 interface ProductBoxBaseProps {
   image: string;
   name: string;
   description: string;
   price: string;
-  additionalContent?: React.ReactNode; // ProductBoxOption
+  additionalContent: PageType; // ProductBoxOption
 }
 
 const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
@@ -15,12 +16,12 @@ const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
   name,
   description,
   price,
-  additionalContent,
+  additionalContent
 }) => {
   return (
     <div className={styles.productBox}>
       <div className={styles.productImageContainer}>
-        <Image
+        <img
           src={image}
           alt={name}
           className={styles.productImage}
@@ -36,7 +37,7 @@ const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
         <p>{price}</p>
       </div>
       <div>
-        {additionalContent && <div className={styles.productAdditional}>{additionalContent}</div>}
+      {additionalContent && <ProductBoxOption pageType={additionalContent} />}
       </div>
     </div>
   );
