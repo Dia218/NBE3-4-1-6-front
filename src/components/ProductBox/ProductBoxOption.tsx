@@ -1,13 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import styles from './ProductBoxOption.module.css'; // Module CSS for scoped styles
+import styles from './ProductBoxOption.module.css';
+import { PageType } from '../../lib/enum/PageType';
 
 interface ProductBoxOptionProps {
-  pageType: 'AddCart' | 'ChangeCart' | 'Default';
-  initialQuantity?: number;
+  pageType: PageType;
+  cartQuantity?: number;
 }
 
-const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ pageType, initialQuantity = 1 }) => {
-  const [quantity, setQuantity] = useState(initialQuantity);
+const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ pageType, cartQuantity}) => {
+  const [quantity, setQuantity] = useState<number>(cartQuantity ?? 1);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = Math.max(1, parseInt(e.target.value, 10)); // Minimum quantity is 1
@@ -15,14 +16,14 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ pageType, initialQu
   };
 
   useEffect(() => {
-    if (pageType === 'ChangeCart') {
-      setQuantity(initialQuantity);
+    if (cartQuantity !== undefined && pageType === PageType.ChangeCart) {
+      setQuantity(cartQuantity);
     }
-  }, [pageType, initialQuantity]);
+  }, [pageType, cartQuantity]);
 
   const renderOptions = () => {
     switch (pageType) {
-      case 'AddCart':
+      case PageType.AddCart:
         return (
           <div className={styles.buttonsContainer}>
             <input
@@ -35,7 +36,7 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ pageType, initialQu
           </div>
         );
 
-      case 'ChangeCart':
+      case PageType.ChangeCart:
         return (
           <div className={styles.buttonsContainer}>
             <input
