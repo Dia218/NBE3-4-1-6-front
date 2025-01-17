@@ -81,90 +81,97 @@ export default function OrderManagementPage() {
 
   if (loading) {
     return (
-      <PageLayout>
+      <PageLayout mainContent={
         <div className={styles.loadingContainer}>
           <p>로딩 중...</p>
         </div>
+      }>
+        {/* 사이드바 또는 다른 콘텐츠가 필요하다면 여기에 추가 */}
       </PageLayout>
     );
   }
 
   return (
-    <PageLayout>
-      <div className={styles.header}>
-        <button className={styles.managementButton}>
-          상품 관리
-        </button>
-      </div>
-      
-      <div className={styles.pageContainer}>
-        <div className={styles.mainContent}>
-        <div className={styles.searchContainer}>
-        <input
-          type="text"
-          placeholder="이메일로 검색"
-          value={searchEmail}
-          onChange={handleSearchEmailChange}
-          onKeyDown={handleKeyPress}
-          className={styles.searchInput}
-        />
-      </div>
-          <div className={styles.container}>
-            {filteredOrders && filteredOrders.length > 0 ? (
-              filteredOrders.map((order, index) => (
-                <div 
-                  key={`${order.orderId}-${index}`}
-                  className={styles.orderGroup}
-                  onClick={() => setSelectedOrder(order)}
-                >
+    <PageLayout mainContent={
+      <div>
+        <div className={styles.header}>
+          <button className={styles.managementButton}>
+            상품 관리
+          </button>
+          <div className={styles.searchContainer}>
+              <input
+                type="text"
+                placeholder="이메일로 검색"
+                value={searchEmail}
+                onChange={handleSearchEmailChange}
+                onKeyDown={handleKeyPress}
+                className={styles.searchInput}
+              />
+            </div>
+        </div>
+        
+        <div className={styles.pageContainer}>
+          <div className={styles.mainContent}>
+            
+            <div className={styles.container}>
+              {filteredOrders && filteredOrders.length > 0 ? (
+                filteredOrders.map((order, index) => (
+                  <div 
+                    key={`${order.orderId}-${index}`}
+                    className={styles.orderGroup}
+                    onClick={() => setSelectedOrder(order)}
+                  >
+                    <div className={styles.orderHeader}>
+                      <p>{order.customerEmail}</p>
+                      <p>{formatDate(order.orderCreatedAt)} {order.orderStatus}</p>
+                    </div>
+                    <ListLayout 
+                      products={order.orderDetails.map(detail => detail.product)}
+                    />
+                    <div className={styles.totalAmount}>
+                      <p>합계 {order.totalPrice}원</p>
+                    </div>
+                  </div>
+                ))
+              ) : (
+                <div className={styles.orderGroup}>
                   <div className={styles.orderHeader}>
-                    <p>{order.customerEmail}</p>
-                    <p>{formatDate(order.orderCreatedAt)} {order.orderStatus}</p>
-                  </div>
-                  <ListLayout 
-                    products={order.orderDetails.map(detail => detail.product)}
-                  />
-                  <div className={styles.totalAmount}>
-                    <p>합계 {order.totalPrice}원</p>
+                    <p>주문 내역이 없습니다</p>
                   </div>
                 </div>
-              ))
-            ) : (
-              <div className={styles.orderGroup}>
-                <div className={styles.orderHeader}>
-                  <p>주문 내역이 없습니다</p>
-                </div>
-              </div>
-            )}
+              )}
+            </div>
+          </div>
+          <div className={styles.sidebar}>
+            <Summary 
+              email={selectedOrder?.customerEmail || ""}
+              address={`${selectedOrder?.baseAddress || ""} ${selectedOrder?.detailAddress || ""}`}
+              orderNumber={selectedOrder?.zipCode || ""}
+            />
           </div>
         </div>
-        <div className={styles.sidebar}>
-          <Summary 
-            email={selectedOrder?.customerEmail || ""}
-            address={`${selectedOrder?.baseAddress || ""} ${selectedOrder?.detailAddress || ""}`}
-            orderNumber={selectedOrder?.zipCode || ""}
-          />
+        <div className={styles.pagination}>
+          {orderPage && orderPage.totalPages > 0 && (
+            <>
+              <button 
+                onClick={() => handlePageChange(currentPage - 1)} 
+                disabled={currentPage === 0}
+              >
+                이전
+              </button>
+              <span>{currentPage + 1 <= orderPage.totalPages ? currentPage + 1 : orderPage.totalPages} / {orderPage.totalPages}</span>
+              <button 
+                onClick={() => handlePageChange(currentPage + 1)} 
+                disabled={currentPage + 1 >= orderPage.totalPages}
+              >
+                다음
+              </button>
+            </>
+          )}
         </div>
       </div>
-      <div className={styles.pagination}>
-        {orderPage && orderPage.totalPages > 0 && (
-          <>
-            <button 
-              onClick={() => handlePageChange(currentPage - 1)} 
-              disabled={currentPage === 0}
-            >
-              이전
-            </button>
-            <span>{currentPage + 1 <= orderPage.totalPages ? currentPage + 1 : orderPage.totalPages} / {orderPage.totalPages}</span>
-            <button 
-              onClick={() => handlePageChange(currentPage + 1)} 
-              disabled={currentPage + 1 >= orderPage.totalPages}
-            >
-              다음
-            </button>
-          </>
-        )}
-      </div>
+    }>
+      {/* 사이드바 또는 다른 콘텐츠가 필요하다면 여기에 추가 */}
     </PageLayout>
   );
 }

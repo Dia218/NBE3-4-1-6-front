@@ -45,12 +45,19 @@
   white-space: normal;
 }
 
-.totalAmount {
+.footer {
+  display: flex;
+  justify-content: space-between;
   border-top: 1px solid #e5e5e5;
   padding: 1rem;
   text-align: right;
   font-weight: bold;
   color: black
+}
+
+.cancel {
+  color: red;
+  font-weight: 700;
 }
 
 .loadingContainer {
@@ -66,13 +73,33 @@
   align-items: center;
   gap: 2rem;
   min-height: 200px;
-  background-color: #f8f8f8;
   border-radius: 8px;
   padding: 2rem;
 }
 
 .emptyState p {
   font-size: 1rem;
+}
+
+.emptyContent {
+  color: black;
+  font-weight: 700;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
+.mainContainer {
+  display: flex;
+  gap: 2rem;
+}
+
+.orderContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .emptySummary {

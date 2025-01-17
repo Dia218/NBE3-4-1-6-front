@@ -35,3 +35,15 @@
   font-size: 1rem;
   color: #333;
 } 
+
+/* 구매자 주문목록 Summary 안내 메시지 스타일링링  */
+.guidingText {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  color: black;
+}
+
+.guidingText .text {
+  font-size: 11px;
+}
