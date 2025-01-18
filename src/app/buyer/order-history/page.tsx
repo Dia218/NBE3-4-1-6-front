@@ -67,14 +67,16 @@ export default function OrderHistoryPage() {
                           <div className={styles.orderHeader}>
                             <p>{order.customerEmail}</p>
                             <p>
-                              {formatDate(order.orderCreatedAt)}{" "}
-                              {order.orderStatus}
+                              {formatDate(order.orderCreatedAt)} {order.orderStatus}
                             </p>
                           </div>
                           <ListLayout
-                            products={order.orderDetails.map(
-                              (detail) => detail.productDTO
-                            )}
+                            products={order.orderDetails
+                              .filter(detail => detail.productDTO)
+                              .map(detail => ({
+                                ...detail.productDTO,
+                                cartQuantity: detail.productQuantity  // orderDetail의 수량 정보 전달
+                              }))}
                           />
                           <div className={styles.footer}>
                             <button

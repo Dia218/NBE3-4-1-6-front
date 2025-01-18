@@ -145,8 +145,7 @@ export default function OrderManagementPage() {
                           .filter(detail => detail.productDTO)
                           .map(detail => ({
                             ...detail.productDTO,
-                            productDescription: detail.productDTO.productDescription,
-                            cartQuantity: detail.productQuantity  // productQuantity 사용
+                            cartQuantity: detail.productQuantity
                           }))}
                       />
                       <div className={styles.totalAmount}>

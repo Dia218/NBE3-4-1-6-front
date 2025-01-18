@@ -6,7 +6,8 @@ import styles from './ListLayout.module.css';
 
 interface ListLayoutProps {
   pageType?: PageType;
-  products: ProductDTO[];
+  products: (ProductDTO & { cartQuantity?: number })[];
+  // 
 }
 
 const ListLayout: React.FC<ListLayoutProps> = ({ pageType = PageType.Default, products }) => {
@@ -18,8 +19,10 @@ const ListLayout: React.FC<ListLayoutProps> = ({ pageType = PageType.Default, pr
           image={product.productImageURL}
           name={product.productName}
           description={product.productDescription}
-          price={product.productPrice.toString()} // String으로 변환
-          additionalContent={pageType} />
+          price={product.productPrice.toString()}
+          additionalContent={pageType}
+          cartQuantity={product.cartQuantity}
+        />
       ))}
     </div>
   );
