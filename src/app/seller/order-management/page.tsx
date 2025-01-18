@@ -6,7 +6,7 @@ import ListLayout from '@/components/ListLayout/ListLayout';
 import Summary from '@/components/Summary/Summary';
 import { sellerOrderService } from '@/lib/api/sellerOrderService';
 import { OrderDTO } from '@/lib/types/OrderDTO';
-import { PageDTO } from '@/lib/types/pageDTO';
+import { PageDTO } from '@/lib/types/PageDTO';
 import styles from './OrderManagement.module.css';
 import { useSearchParams } from 'next/navigation';
 
@@ -115,24 +115,46 @@ export default function OrderManagementPage() {
             
             <div className={styles.container}>
               {filteredOrders && filteredOrders.length > 0 ? (
-                filteredOrders.map((order, index) => (
-                  <div 
-                    key={`${order.orderId}-${index}`}
-                    className={styles.orderGroup}
-                    onClick={() => setSelectedOrder(order)}
-                  >
-                    <div className={styles.orderHeader}>
-                      <p>{order.customerEmail}</p>
-                      <p>{formatDate(order.orderCreatedAt)} {order.orderStatus}</p>
+                filteredOrders.map((order, index) => {
+                  console.log('Order:', order);
+                  console.log('OrderDetails:', order.orderDetails);
+                  const products = order.orderDetails
+                    .filter(detail => detail.productDTO)
+                    .map(detail => {
+                      const { productStock, ...restProductDTO } = detail.productDTO;
+                      return {
+                        ...restProductDTO,
+                        productStock: detail.productQuantity,
+                        productDescription: `수량: ${detail.productQuantity}개\n${detail.productDTO.productDescription}`
+                      };
+                    });
+                  console.log('Mapped Products:', products);
+                  
+                  return (
+                    <div 
+                      key={`${order.orderId}-${index}`}
+                      className={styles.orderGroup}
+                      onClick={() => setSelectedOrder(order)}
+                    >
+                      <div className={styles.orderHeader}>
+                        <p>{order.customerEmail}</p>
+                        <p>{formatDate(order.orderCreatedAt)} {order.orderStatus}</p>
+                      </div>
+                      <ListLayout 
+                        products={order.orderDetails
+                          .filter(detail => detail.productDTO)
+                          .map(detail => ({
+                            ...detail.productDTO,
+                            productDescription: detail.productDTO.productDescription,
+                            cartQuantity: detail.productQuantity  // productQuantity 사용
+                          }))}
+                      />
+                      <div className={styles.totalAmount}>
+                        <p>합계 {order.totalPrice}원</p>
+                      </div>
                     </div>
-                    <ListLayout 
-                      products={order.orderDetails.map(detail => detail.product)}
-                    />
-                    <div className={styles.totalAmount}>
-                      <p>합계 {order.totalPrice}원</p>
-                    </div>
-                  </div>
-                ))
+                  );
+                })
               ) : (
                 <div className={styles.orderGroup}>
                   <div className={styles.orderHeader}>

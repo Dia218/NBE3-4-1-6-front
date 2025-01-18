@@ -6,7 +6,7 @@ import ListLayout from "@/components/ListLayout/ListLayout";
 import Summary from "@/components/Summary/Summary";
 import { sellerOrderService } from "@/lib/api/sellerOrderService";
 import { OrderDTO } from "@/lib/types/OrderDTO";
-import { PageDTO } from "@/lib/types/pageDTO";
+import { PageDTO } from "@/lib/types/PageDTO";
 import styles from "./OrderManagement.module.css";
 import { useSearchParams } from "next/navigation";
 
@@ -73,7 +73,7 @@ export default function OrderHistoryPage() {
                           </div>
                           <ListLayout
                             products={order.orderDetails.map(
-                              (detail) => detail.product
+                              (detail) => detail.productDTO
                             )}
                           />
                           <div className={styles.footer}>
