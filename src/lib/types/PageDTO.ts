@@ -1,7 +1,7 @@
-export interface PageDto<T> {
+export interface PageDTO<T> {
     currentPageNumber: number,
     pageSize: number,
     totalPages: number,
     totalItems: number,
-    itmes: T[]
+    items: T[]
 }
