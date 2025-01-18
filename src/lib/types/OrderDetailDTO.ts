@@ -4,5 +4,5 @@ export interface OrderDetailDTO {
     orderDetailId: number;
     productQuantity: number;
     orderPrice: number;
-    productDTO: ProductDTO;
+    product: ProductDTO;
   }

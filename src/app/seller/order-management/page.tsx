@@ -119,13 +119,13 @@ export default function OrderManagementPage() {
                   console.log('Order:', order);
                   console.log('OrderDetails:', order.orderDetails);
                   const products = order.orderDetails
-                    .filter(detail => detail.productDTO)
+                    .filter(detail => detail.product)
                     .map(detail => {
-                      const { productStock, ...restProductDTO } = detail.productDTO;
+                      const { productStock, ...restProductDTO } = detail.product;
                       return {
                         ...restProductDTO,
                         productStock: detail.productQuantity,
-                        productDescription: `수량: ${detail.productQuantity}개\n${detail.productDTO.productDescription}`
+                        productDescription: `수량: ${detail.productQuantity}개\n${detail.product.productDescription}`
                       };
                     });
                   console.log('Mapped Products:', products);
@@ -142,9 +142,9 @@ export default function OrderManagementPage() {
                       </div>
                       <ListLayout 
                         products={order.orderDetails
-                          .filter(detail => detail.productDTO)
+                          .filter(detail => detail.product)
                           .map(detail => ({
-                            ...detail.productDTO,
+                            ...detail.product,
                             cartQuantity: detail.productQuantity
                           }))}
                       />
@@ -166,8 +166,8 @@ export default function OrderManagementPage() {
           <div className={styles.sidebar}>
             <Summary 
               email={selectedOrder?.customerEmail || ""}
-              address={`${selectedOrder?.baseAddress || ""} ${selectedOrder?.detailAddress || ""}`}
-              orderNumber={selectedOrder?.zipCode || ""}
+              address={`${selectedOrder?.address?.baseAddress || ""} ${selectedOrder?.address?.detailAddress || ""}`}
+              orderNumber={selectedOrder?.address?.zipCode || ""}
             />
           </div>
         </div>

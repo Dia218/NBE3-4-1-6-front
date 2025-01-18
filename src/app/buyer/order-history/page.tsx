@@ -72,9 +72,9 @@ export default function OrderHistoryPage() {
                           </div>
                           <ListLayout
                             products={order.orderDetails
-                              .filter(detail => detail.productDTO)
+                              .filter(detail => detail.product)
                               .map(detail => ({
-                                ...detail.productDTO,
+                                ...detail.product,
                                 cartQuantity: detail.productQuantity  // orderDetail의 수량 정보 전달
                               }))}
                           />
@@ -95,10 +95,10 @@ export default function OrderHistoryPage() {
                     <div className={styles.summaryContainer}>
                       <Summary
                         email={orderPage?.items[0]?.customerEmail || ""}
-                        address={`${orderPage?.items[0]?.baseAddress || ""} ${
-                          orderPage?.items[0]?.detailAddress || ""
+                        address={`${orderPage?.items[0]?.address?.baseAddress || ""} ${
+                          orderPage?.items[0]?.address?.detailAddress || ""
                         }`}
-                        orderNumber={orderPage?.items[0]?.zipCode || ""}
+                        orderNumber={orderPage?.items[0]?.address?.zipCode || ""}
                         hasGuidingText={true}
                       />
                     </div>
