@@ -11,12 +11,37 @@
   position: relative;
 }
 
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin-top: 20px;
+  height: 30px;
+  width: 100%;
+  background-color: var(--header-background-color);
+}
+
+.pageButton {
+  position: absolute;
+  left: 10px;
+  background-color: var(--button-basic-background-color);
+  color: var(--button-basic-text-color);
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.pageButton:hover {
+  background-color: var(--button-basic-hover-color);
+}
+
 .header {
   font-size: 24px;
   font-weight: bold;
-  height: 20px;
-  line-height: 20px;
-  margin-top: 0;
+  color: var(--header-text-color);
+  line-height: 1;
 }
 
 .body {
@@ -42,9 +67,11 @@
 .sidebar {
   width: 400px;
   background-color: var(--component-basic-color);
-  height: 100vh;
-  position: absolute;
-  top: 20px;
+  position: fixed; /* 변경: fixed로 고정 */
+  top: 0;
   right: 0;
+  height: calc(100vh - 20px); /* 변경: 화면 전체 높이만큼 확장 */
   z-index: 1;
+  padding: 20px;
+  box-sizing: border-box;
 }

@@ -7,6 +7,7 @@ import { getProducts } from '../../../lib/api/sellerProductService';
 import { ProductDTO } from '../../../lib/types/ProductDTO';
 import styles from './ProductListPage.module.css'; // CSS 모듈 가져오기
 import { PageType } from '@/lib/enum/PageType';
+import { PageButtonType } from '@/lib/enum/PageButtonType';
 
 const ProductListPage: React.FC = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]); //백엔드에서 ProductDTO 가져오기
@@ -30,10 +31,13 @@ const ProductListPage: React.FC = () => {
         <PageLayout 
           mainContent={
             <ListLayout 
-              pageType={PageType.AddCart} 
-              products={products} 
-            />
-          } 
+              pageType={PageType.AddCart}
+              products={products} setSelectedProduct={function (product: ProductDTO | null): void {
+                throw new Error('Function not implemented.');
+              } }            />
+          }
+          pageButtonType={PageButtonType.OrderHistory} // 전달된 페이지 버튼 타입
+          targetPage="/buyer/email-input" // targetPage 경로 지정
         />
       </div>
     </div>

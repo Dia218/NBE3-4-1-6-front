@@ -1,21 +1,39 @@
+import { Meta, StoryFn } from '@storybook/react';
 import PageLayout from './PageLayout';
+import { PageButtonType } from '../../lib/enum/PageButtonType';
 
 export default {
   title: 'Components/PageLayout',
   component: PageLayout,
+} as Meta<typeof PageLayout>;
+
+const Template: StoryFn<typeof PageLayout> = (args) => <PageLayout {...args} />;
+
+export const Default = Template.bind({});
+Default.args = {
+  mainContent: <div>Main content goes here</div>,
 };
 
-const MainContent = () => <div style={{ backgroundColor: '#f0f0f0', height: '100vh' }}>Main content here</div>;
+export const WithButton = Template.bind({});
+WithButton.args = {
+  mainContent: <div>Main content goes here</div>,
+  pageButtonType: PageButtonType.OrderManagement,
+};
 
-const SidebarContent = () => <div style={{ backgroundColor: '#ddd', padding: '20px' }}>Sidebar content</div>;
+export const WithSidebar = Template.bind({});
+WithSidebar.args = {
+  mainContent: <div>Main content goes here</div>,
+  sidebarContent: <div>Sidebar content goes here</div>,
+};
 
-export const WithSidebar = () => (
-  <PageLayout
-    mainContent={<MainContent />}
-    sidebarContent={<SidebarContent />}
-  />
-);
+export const WithButtonAndSidebar = Template.bind({});
+WithButtonAndSidebar.args = {
+  mainContent: <div>Main content goes here</div>,
+  pageButtonType: PageButtonType.ProductManagement,
+  sidebarContent: <div>Sidebar content goes here</div>,
+};
 
-export const WithoutSidebar = () => (
-  <PageLayout mainContent={<MainContent />} />
-);
+export const WithoutButtonAndSidebar = Template.bind({});
+WithoutButtonAndSidebar.args = {
+  mainContent: <div>Main content goes here</div>,
+};

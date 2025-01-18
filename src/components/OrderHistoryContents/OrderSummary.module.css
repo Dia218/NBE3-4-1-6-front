@@ -1,0 +1,17 @@
+.summaryContainer {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .emptySummary {
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    padding: 2rem;
+    text-align: center;
+  }
+  
+  .emptySummary p {
+    color: #666;
+    font-size: 1rem;
+  }
+  
