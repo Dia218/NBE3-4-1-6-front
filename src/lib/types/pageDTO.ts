@@ -4,4 +4,4 @@ export interface PageDTO<T> {
   totalPages: number;
   totalItems: number;
   items: T[];
-} 
+}
