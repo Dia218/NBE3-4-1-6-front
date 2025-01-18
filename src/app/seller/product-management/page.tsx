@@ -7,6 +7,7 @@ import { getProducts } from '../../../lib/api/sellerProductService';
 import { ProductDTO } from '../../../lib/types/ProductDTO';
 import { PageButtonType } from '@/lib/enum/PageButtonType';
 import ProductRequestLayout from '@/components/ProductRequestLayout/ProductRequestLayout';
+import { SideButtonType } from '@/lib/enum/SideButtonType';
 
 const ProductManagementPage: React.FC = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]); // 백엔드에서 ProductDTO 가져오기
@@ -53,6 +54,7 @@ const ProductManagementPage: React.FC = () => {
       }
       pageButtonType={PageButtonType.OrderManagement} // 전달된 페이지 버튼 타입
       targetPage="/seller/order-management" // targetPage 경로 지정
+      sideButtonType={SideButtonType.NewProduct} // 상품 추가 버튼
     />
   );
 };

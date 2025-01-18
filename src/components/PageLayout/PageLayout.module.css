@@ -37,6 +37,20 @@
   background-color: var(--button-basic-hover-color);
 }
 
+.sideButton {
+  position: absolute;
+  right: 10px;
+  background-color: var(--button-basic-background-color);
+  color: var(--button-basic-text-color);
+  border: none;
+  cursor: pointer;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+.sideButton:hover {
+  background-color: var(--button-basic-hover-color);
+}
+
 .header {
   font-size: 24px;
   font-weight: bold;
