@@ -30,10 +30,10 @@ export async function submitOrder(formData : OrderRequestDTO) : Promise<void> {
 
 export const buyerOrderService = {
   // 구매자 주문 목록 조회
-  getOrders: async (email: string): Promise<PageDTO<OrderDTO>> => {
+  getOrders: async (email: string, page: number = 0): Promise<PageDTO<OrderDTO>> => {
     try {
-      const url = `${API_BASE_URL}/order/list?email=${encodeURIComponent(email)}`;
-      console.log('Fetching orders from:', url);  // URL 확인용 로그
+      const url = `${API_BASE_URL}/order/list?email=${encodeURIComponent(email)}&page=${page}`;
+      console.log('Fetching orders from:', url);
 
       const response = await fetch(url, {
         method: 'GET',
@@ -43,15 +43,31 @@ export const buyerOrderService = {
       });
 
       if (!response.ok) {
-        console.error('Response not ok:', response.status);  // 응답 상태 확인
         throw new Error('Failed to fetch orders');
       }
 
-      const data = await response.json();
-      console.log('Received data:', data);  // 받은 데이터 확인
-      return data;
+      return await response.json();
     } catch (error) {
       console.error('Error fetching orders:', error);
+      throw error;
+    }
+  },
+
+  // 주문 취소 메서드 추가
+  cancelOrder: async (orderId: number): Promise<void> => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/order/list?orderId=${orderId}`, {
+        method: 'PATCH',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to cancel order');
+      }
+    } catch (error) {
+      console.error('Error canceling order:', error);
       throw error;
     }
   }
