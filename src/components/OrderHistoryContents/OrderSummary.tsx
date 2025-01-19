@@ -10,10 +10,12 @@ const OrderSummary = ({ email, address, orderNumber }: OrderSummaryProps) => {
   return (
     <div className="summaryContainer">
       <Summary
-        email={email}
-        address={address}
-        orderNumber={orderNumber}
-        hasGuidingText={true}
+        selectedOrder={{
+          customerEmail: email,
+          address,
+          orderId: orderNumber,
+          hasGuidingText: true
+        }}
       />
     </div>
   );

@@ -75,7 +75,7 @@ export default function OrderManagementPage() {
   return (
     <PageLayout
       mainContent={
-        <div onClick={handleBodyClick}> {/* Close sidebar on body click */}
+        <div onClick={handleBodyClick}>
           <div className={styles.header}>
             <SearchEmailInput
               searchEmail={searchEmail}
@@ -83,13 +83,14 @@ export default function OrderManagementPage() {
               onKeyPress={handleKeyPress}
             />
           </div>
-
           <div className={styles.pageContainer}>
             <div className={styles.mainContent}>
-              <OrderList orders={filteredOrders || []} setSelectedOrder={setSelectedOrder} />
+              <OrderList 
+                orders={filteredOrders || []} 
+                setSelectedOrder={setSelectedOrder} 
+              />
             </div>
           </div>
-
           <Pagination 
             currentPage={currentPage} 
             totalPages={orderPage?.totalPages || 0} 
@@ -98,8 +99,8 @@ export default function OrderManagementPage() {
         </div>
       }
       sidebarContent={selectedOrder ? <Summary selectedOrder={selectedOrder} /> : null}
-      pageButtonType={PageButtonType.ProductManagement} // 전달된 페이지 버튼 타입
-      targetPage="/seller/product-management" // targetPage 경로 지정
+      pageButtonType={PageButtonType.ProductManagement}
+      targetPage="/seller/product-management"
     />
   );
 }

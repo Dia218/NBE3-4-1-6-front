@@ -1,0 +1,21 @@
+.orderGroup {
+    display: flex;
+    flex-direction: column;
+}
+
+.orderHeader {
+    background-color: black;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+}
+
+.totalAmount {
+    color: black;
+    padding: 50px;
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
