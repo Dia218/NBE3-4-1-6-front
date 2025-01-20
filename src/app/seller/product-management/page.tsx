@@ -28,11 +28,9 @@ const ProductManagementPage: React.FC = () => {
   }, []);
 
   // sideButtonType 클릭 시 동작
-  const handleSideButtonClick = (type: SideButtonType) => {
-    if (type === SideButtonType.NewProduct) {
-      setSelectedProduct(null); // 새 상품 추가
-      setIsSidebarVisible(true); // 사이드바 열기
-    }
+  const handleSideButtonClick = () => {
+    setSelectedProduct(null); // 새 상품 추가
+    setIsSidebarVisible(true); // 사이드바 열기
   };
 
   // 상품 클릭 시 사이드바 열기
@@ -83,7 +81,7 @@ const ProductManagementPage: React.FC = () => {
       pageButtonType={PageButtonType.OrderManagement} // 전달된 페이지 버튼 타입
       targetPage="/seller/order-management" // targetPage 경로 지정
       sideButtonType={SideButtonType.NewProduct} // 상품 추가 버튼
-      onSideButtonClick={handleSideButtonClick} // sideButtonType 클릭 시 핸들러 연결
+      sideButtonAction={handleSideButtonClick} // sideButtonType 클릭 시 핸들러 연결
     />
   );
 };
