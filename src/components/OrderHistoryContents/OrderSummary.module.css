@@ -82,3 +82,9 @@
 .detailButton:active {
   background-color: #004494; /* 버튼 클릭 시 색상 */
 }
+
+.disabledButton {
+  background-color: #ccc; /* 회색 */
+  cursor: not-allowed;
+  pointer-events: none; /* 클릭 이벤트 비활성화 */
+}
