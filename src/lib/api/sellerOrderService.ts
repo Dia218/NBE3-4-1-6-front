@@ -7,7 +7,7 @@ export const sellerOrderService = {
   // Seller주문 목록 조회 (페이지네이션, 이메일 검색 지원)
   getOrders: async (
     page: number = 0,
-    size: number = 10,
+    size: number = 5,
     email?: string
   ): Promise<PageDTO<OrderDTO>> => {
     try {

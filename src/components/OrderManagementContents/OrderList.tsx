@@ -1,5 +1,5 @@
 import React from 'react';
-import ListLayout from '@/components/ListLayout/ListLayout';
+import OrderBox from '@/components/OrderBox/OrderBox';
 import { OrderDTO } from '@/lib/types/OrderDTO';
 import styles from './OrderList.module.css';
 
@@ -9,48 +9,17 @@ interface OrderListProps {
 }
 
 const OrderList: React.FC<OrderListProps> = ({ orders, setSelectedOrder }) => {
+  if (!orders?.length) return <div>주문 내역이 없습니다.</div>;
+
   return (
     <div className={styles.container}>
-      {orders.length > 0 ? (
-        orders.map((order, index) => {
-          const products = order.orderDetails
-            .filter(detail => detail.product)
-            .map(detail => {
-              const { productStock, ...restProductDTO } = detail.product;
-              return {
-                ...restProductDTO,
-                productStock: detail.productQuantity,
-                productDescription: `수량: ${detail.productQuantity}개\n${detail.product.productDescription}`,
-              };
-            });
-
-          return (
-            <div key={`${order.orderId}-${index}`} className={styles.orderGroup} onClick={() => setSelectedOrder(order)}>
-              <div className={styles.orderHeader}>
-                <p>{order.customerEmail}</p>
-                <p>{new Date(order.orderCreatedAt).toLocaleString()} {order.orderStatus}</p>
-              </div>
-              <ListLayout
-                products={order.orderDetails
-                  .filter(detail => detail.product)
-                  .map(detail => ({
-                    ...detail.product,
-                    cartQuantity: detail.productQuantity,
-                  }))}
-              />
-              <div className={styles.totalAmount}>
-                <p>합계 {order.totalPrice}원</p>
-              </div>
-            </div>
-          );
-        })
-      ) : (
-        <div className={styles.orderGroup}>
-          <div className={styles.orderHeader}>
-            <p>주문 내역이 없습니다</p>
-          </div>
-        </div>
-      )}
+      {orders.map((order) => (
+        <OrderBox
+          key={order.orderId}
+          order={order}
+          onSelect={setSelectedOrder}
+        />
+      ))}
     </div>
   );
 };
