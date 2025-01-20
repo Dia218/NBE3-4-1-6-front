@@ -1,5 +1,6 @@
-import React from 'react';
-import styles from './Summary.module.css';
+import React from "react";
+import styles from "./Summary.module.css";
+import { OrderDTO } from "@/lib/types/OrderDTO";
 
 interface SummaryProps {
   email: string;
@@ -8,19 +9,28 @@ interface SummaryProps {
   hasGuidingText?: boolean;
 }
 
-const SummarySection: React.FC<{ selectedOrder: any }> = ({ selectedOrder }) => {
+const SummarySection: React.FC<{ selectedOrder: OrderDTO }> = ({
+  selectedOrder,
+}) => {
   return (
     <div>
       <Summary
         email={selectedOrder?.customerEmail || ""}
-        address={`${selectedOrder?.address?.baseAddress || ""} ${selectedOrder?.address?.detailAddress || ""}`}
+        address={`${selectedOrder?.address?.baseAddress || ""} ${
+          selectedOrder?.address?.detailAddress || ""
+        }`}
         orderNumber={selectedOrder?.address?.zipCode || ""}
       />
     </div>
   );
 };
 
-const Summary: React.FC<SummaryProps> = ({ email, address, orderNumber, hasGuidingText = false }) => {
+const Summary: React.FC<SummaryProps> = ({
+  email,
+  address,
+  orderNumber,
+  hasGuidingText = false,
+}) => {
   return (
     <div className={styles.summary}>
       <h2 className={styles.title}>Summary</h2>
@@ -40,13 +50,16 @@ const Summary: React.FC<SummaryProps> = ({ email, address, orderNumber, hasGuidi
         {/* 구매자 주문목록 Summary 안내 메시지 */}
         {hasGuidingText && (
           <div className={styles.guidingText}>
-            <p className={styles.text}>당일 오후 2시 이후의 주문은 다음날 배송을 시작합니다.</p>
-            <p className={styles.text}>주문 취소 및 수정은 배송 시작 1시간 (오후 1시) 전까지 가능합니다.</p>
+            <p className={styles.text}>
+              당일 오후 2시 이후의 주문은 다음날 배송을 시작합니다.
+            </p>
+            <p className={styles.text}>
+              주문 취소 및 수정은 배송 시작 1시간 (오후 1시) 전까지 가능합니다.
+            </p>
           </div>
         )}
       </div>
     </div>
   );
 };
-
 export default SummarySection;

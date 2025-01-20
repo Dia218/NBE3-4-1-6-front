@@ -9,6 +9,7 @@ import styles from './CartPage.module.css'; // CSS 모듈 가져오기
 import { PageType } from '@/lib/enum/PageType';
 import OrderRequestComponent from '@/components/OrderRequestLayout/OrderRequestLayout';
 import { SideButtonType } from '@/lib/enum/SideButtonType';
+import { PageButtonType } from '@/lib/enum/PageButtonType';
 
 const CartPage: React.FC = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]); //백엔드에서 ProductDTO 가져오기
@@ -82,6 +83,7 @@ const CartPage: React.FC = () => {
               </div>
             )
           }
+          pageButtonType={PageButtonType.ProductList} // 전달된 페이지 버튼 타입
           targetPage="/buyer/product-list" // targetPage 경로 지정
           sideButtonType={SideButtonType.Payment} // 결제 사이드바 버튼
           sideButtonAction={handleSideButtonClick} // sideButtonType 클릭 시 핸들러 연결
