@@ -9,6 +9,7 @@ export async function submitOrder(formData : OrderRequestDTO) : Promise<void> {
     try {
         const response = await fetch('http://localhost:8080/order', {
             method: 'POST',
+            credentials: 'include',
             headers: {
                 'Content-Type': 'application/json',
             },
