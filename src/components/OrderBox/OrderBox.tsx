@@ -36,11 +36,8 @@ const OrderBox = ({
     <>
       <div className={styles.orderGroup} onClick={() => onSelect(order)}>
         <div className={styles.orderHeader}>
-          <p>{order.customerEmail}</p>
-          <button>
-            <a href={`/buyer/shipping-detail/${order.orderId}`}>Detail</a>
-          </button>
           <p>
+            {order.customerEmail}
             {`${new Date(order.orderCreatedAt).toLocaleString()} ${
               OrderStatus[
                 order.orderStatus as unknown as keyof typeof OrderStatus
