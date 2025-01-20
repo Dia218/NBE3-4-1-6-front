@@ -42,14 +42,6 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
     mappedOrderStatus(selectedOrder.orderStatus) === OrderStatus.ORDERED ||
     mappedOrderStatus(selectedOrder.orderStatus) === OrderStatus.CANCELLED;
 
-  // 디버깅 로그
-  console.log("selectedOrder.orderStatus:", selectedOrder.orderStatus);
-  console.log(
-    "mappedOrderStatus:",
-    mappedOrderStatus(selectedOrder.orderStatus)
-  );
-  console.log("isButtonDisabled:", isButtonDisabled);
-
   return (
     <div className={styles.summary}>
       <h2 className={styles.title}>Summary</h2>
