@@ -2,11 +2,16 @@ import { createProduct, deleteProduct, updateProduct } from "@/lib/api/sellerPro
 import { ProductDTO } from "@/lib/types/ProductDTO";
 import styles from './ProductRequestLayout.module.css';
 import { ProductRequestDTO } from "@/lib/types/ProductRequestDTO";
-import { useRouter } from "next/navigation";
 
-function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
-
-    const router = useRouter();
+function ProductRequestLayout({
+    product,
+    onProductChange,
+    onDelete,
+  }: {
+    product: ProductDTO | null;
+    onProductChange: () => void;
+    onDelete: () => void;
+  }) {
 
     // 폼 제출 처리
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -54,6 +59,7 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
                 productStock: form.productStock.value
             };
             await createProduct(createFormData); // 상품 등록 API 호출
+            onProductChange();
         } else {
             const updateFormData: ProductDTO = {
                 productId: product.productId,
@@ -64,6 +70,7 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
                 productStock: form.productStock.value
             };
             await updateProduct(updateFormData); // 상품 수정 API 호출
+            onProductChange();
         }
     };
 
@@ -73,12 +80,13 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
             if (product != null) {
                 await deleteProduct(product.productId);
                 alert('상품 삭제가 완료되었습니다.');
-                router.refresh();
+                onDelete();
             }
         } catch (error) {
             alert(`상품 삭제 오류: ${error}`);
         }
     }
+
 
     return (
         <div className={styles.container}>
@@ -163,19 +171,15 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
                     <button type="submit" className={styles.submitButton}>
                         {product ? '수정하기' : '등록하기'}
                     </button>
-                    <button onClick={() => handleDeleteProduct()} 
+                </form>
+                <button onClick={() => handleDeleteProduct()} 
                         className={styles.deleteButton}
                         disabled={!product}>
                         삭제하기
                     </button>
-                </form>
             </div>
         </div>
     );
 }
 
-<<<<<<< HEAD
 export default ProductRequestLayout;
-=======
-export default ProductRequestLayout;
->>>>>>> e43d0ed93c8d2d38c7f10e7f9919b0f23f056c3b

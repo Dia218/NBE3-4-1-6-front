@@ -14,18 +14,28 @@ const ProductManagementPage: React.FC = () => {
   const [selectedProduct, setSelectedProduct] = useState<ProductDTO | null>(null); // 선택된 상품 정보 관리
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // 사이드바 표시 여부
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const fetchedProducts = await getProducts();
-        setProducts(fetchedProducts);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
+  const fetchProducts = async () => {
+    try {
+      const fetchedProducts = await getProducts();
+      setProducts(fetchedProducts);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
   }, []);
+
+    // 상품 등록/수정 후 목록 갱신
+    const handleProductChange = () => {
+      fetchProducts(); // 상품 변경 후 목록 갱신
+    };
+  
+    // 상품 삭제 후 목록 갱신
+    const handleDeleteProduct = () => {
+      fetchProducts(); // 상품 삭제 후 목록 갱신
+    };
 
   // sideButtonType 클릭 시 동작
   const handleSideButtonClick = () => {
@@ -74,7 +84,10 @@ const ProductManagementPage: React.FC = () => {
       sidebarContent={
         isSidebarVisible && ( // 사이드바 표시 여부에 따라 렌더링
           <div className="sidebar">
-            <ProductRequestLayout product={selectedProduct} />
+            <ProductRequestLayout product={selectedProduct} 
+              onProductChange={handleProductChange} // 상품 변경 후 목록 갱신
+              onDelete={handleDeleteProduct} // 상품 삭제 후 목록 갱신
+            />
           </div>
         )
       }
