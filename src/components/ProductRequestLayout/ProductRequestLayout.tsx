@@ -1,9 +1,17 @@
-import { createProduct, updateProduct } from "@/lib/api/sellerProductService";
+import { createProduct, deleteProduct, updateProduct } from "@/lib/api/sellerProductService";
 import { ProductDTO } from "@/lib/types/ProductDTO";
 import styles from './ProductRequestLayout.module.css';
 import { ProductRequestDTO } from "@/lib/types/ProductRequestDTO";
 
-function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
+function ProductRequestLayout({
+    product,
+    onProductChange,
+    onDelete,
+  }: {
+    product: ProductDTO | null;
+    onProductChange: () => void;
+    onDelete: () => void;
+  }) {
 
     // 폼 제출 처리
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -51,6 +59,7 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
                 productStock: form.productStock.value
             };
             await createProduct(createFormData); // 상품 등록 API 호출
+            onProductChange();
         } else {
             const updateFormData: ProductDTO = {
                 productId: product.productId,
@@ -61,8 +70,23 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
                 productStock: form.productStock.value
             };
             await updateProduct(updateFormData); // 상품 수정 API 호출
+            onProductChange();
         }
     };
+
+    // 상품 삭제 버튼 눌리면 수행
+    const handleDeleteProduct = async () => { 
+        try{ 
+            if (product != null) {
+                await deleteProduct(product.productId);
+                alert('상품 삭제가 완료되었습니다.');
+                onDelete();
+            }
+        } catch (error) {
+            alert(`상품 삭제 오류: ${error}`);
+        }
+    }
+
 
     return (
         <div className={styles.container}>
@@ -148,6 +172,11 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
                         {product ? '수정하기' : '등록하기'}
                     </button>
                 </form>
+                <button onClick={() => handleDeleteProduct()} 
+                        className={styles.deleteButton}
+                        disabled={!product}>
+                        삭제하기
+                    </button>
             </div>
         </div>
     );
