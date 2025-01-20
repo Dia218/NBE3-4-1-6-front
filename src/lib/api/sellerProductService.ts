@@ -24,7 +24,7 @@ export const getProducts = async (page: number = 0): Promise<ProductDTO[]> => {
  * @param productId The ID of the product to delete.
  * @returns A promise resolving to void.
  */
-export const deleteProduct = async (productId: number): Promise<void> => {
+export const deleteProduct = async (productId: number) => {
   const response = await fetch(`${BASE_URL}/${productId}`, {
     method: 'DELETE',
   });

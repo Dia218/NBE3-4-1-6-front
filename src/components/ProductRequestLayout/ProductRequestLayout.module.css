@@ -1,101 +1,119 @@
 .container {
-    width: 100%;
-    min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    padding: 2rem;
-    background-color: #f5f5f5;
-  }
-  
-  .formWrapper {
-    width: 100%;
-    max-width: 480px;
-    background: white;
-    padding: 2rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  }
-  
-  .title {
-    font-size: 1.5rem;
-    font-weight: 700;
-    margin-bottom: 2rem;
-    text-align: center;
-    color: #333;
-  }
-  
-  .form {
-    display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
-  }
-  
-  .inputGroup {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-  }
-  
-  .inputGroup label {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #666;
-  }
-  
-  .input {
-    width: 100%;
-    padding: 0.75rem 1rem;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    font-size: 1rem;
-    transition: border-color 0.2s ease;
-  }
-  
-  .textarea {
-    resize: vertical;
-    min-height: 100px;
-    font-family: inherit;
-  }
-  
-  .input:focus {
-    outline: none;
-    border-color: #4a90e2;
-    box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
-  }
-  
-  .input::placeholder {
-    color: #aaa;
-  }
-  
-  .submitButton {
-    width: 100%;
-    padding: 1rem;
-    background-color: #4a90e2;
-    color: white;
-    border: none;
-    border-radius: 6px;
-    font-size: 1rem;
-    font-weight: 600;
-    cursor: pointer;
-    transition: background-color 0.2s ease;
-    margin-top: 1rem;
-  }
-  
-  .submitButton:hover {
-    background-color: #357abd;
-  }
-  
-  .submitButton:active {
-    background-color: #2d6aa3;
-  }
-  
-  @media (max-width: 480px) {
-    .container {
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2rem;
+  background-color: #f5f5f5;
+}
+
+.formWrapper {
+  width: 100%;
+  max-width: 480px;
+  background: white;
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 배치 */
+  gap: 1rem; /* 버튼 사이 간격 */
+}
+
+.title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  text-align: center;
+  color: #333;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.inputGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.inputGroup label {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: #666;
+}
+
+.input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s ease;
+}
+
+.textarea {
+  resize: vertical;
+  min-height: 100px;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: none;
+  border-color: #4a90e2;
+  box-shadow: 0 0 0 2px rgba(74, 144, 226, 0.1);
+}
+
+.input::placeholder {
+  color: #aaa;
+}
+
+/* 공통된 버튼 스타일 */
+.submitButton, .deleteButton {
+  width: 100%; /* 버튼이 가로를 100% 차지하게 */
+  padding: 1rem;
+  border: none;
+  border-radius: 6px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.submitButton {
+  background-color: #4a90e2; /* 파란색 */
+}
+
+.submitButton:hover {
+  background-color: #357abd;
+}
+
+.submitButton:active {
+  background-color: #2d6aa3;
+}
+
+.deleteButton {
+  background-color: #dc3545;  /* 빨간색 계열 */
+}
+
+.deleteButton:hover {
+  background-color: #c82333;
+}
+
+.deleteButton:disabled {
+  background-color: #6c757d;
+  cursor: not-allowed;
+}
+
+@media (max-width: 480px) {
+  .container {
       padding: 1rem;
-    }
-    
-    .formWrapper {
-      padding: 1.5rem;
-    }
   }
+
+  .formWrapper {
+      padding: 1.5rem;
+  }
+}
