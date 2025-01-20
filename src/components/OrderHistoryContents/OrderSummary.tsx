@@ -2,11 +2,28 @@ import React from "react";
 import { OrderDTO } from "@/lib/types/OrderDTO";
 import styles from "./OrderSummary.module.css";
 import { useRouter } from "next/navigation";
+import { OrderStatus } from "@/lib/types/OrderStatusDTO";
 
 interface OrderSummaryProps {
   selectedOrder: OrderDTO;
   hasGuidingText?: boolean;
 }
+
+// 문자열을 OrderStatus enum으로 매핑
+const mappedOrderStatus = (status: string): OrderStatus => {
+  switch (status) {
+    case "ORDERED":
+      return OrderStatus.ORDERED;
+    case "CANCELLED":
+      return OrderStatus.CANCELLED;
+    case "PREPARING":
+      return OrderStatus.PREPARING;
+    case "DELIVERED":
+      return OrderStatus.DELIVERED;
+    default:
+      throw new Error(`Unknown order status: ${status}`);
+  }
+};
 
 const OrderSummary: React.FC<OrderSummaryProps> = ({
   selectedOrder,
@@ -14,14 +31,24 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
 }) => {
   const router = useRouter();
 
-  // Detail 버튼 클릭 핸들러 추가
   const handleDetailClick = () => {
     if (selectedOrder?.orderId) {
       router.push(`/buyer/shipping-detail/${selectedOrder.orderId}`);
-    } else {
-      console.error("Order ID가 존재하지 않습니다.");
     }
   };
+
+  // 버튼 비활성화 조건
+  const isButtonDisabled =
+    mappedOrderStatus(selectedOrder.orderStatus) === OrderStatus.ORDERED ||
+    mappedOrderStatus(selectedOrder.orderStatus) === OrderStatus.CANCELLED;
+
+  // 디버깅 로그
+  console.log("selectedOrder.orderStatus:", selectedOrder.orderStatus);
+  console.log(
+    "mappedOrderStatus:",
+    mappedOrderStatus(selectedOrder.orderStatus)
+  );
+  console.log("isButtonDisabled:", isButtonDisabled);
 
   return (
     <div className={styles.summary}>
@@ -51,18 +78,18 @@ const OrderSummary: React.FC<OrderSummaryProps> = ({
             </p>
           </div>
         )}
-        {/* Detail 버튼 추가 */}
-        {/* 구분선 추가 */}
         <div className={styles.divider}></div>
-
-        {/* 배송 조회 버튼 추가 */}
-        {selectedOrder.orderId && (
-          <div className={styles.buttonContainer}>
-            <button onClick={handleDetailClick} className={styles.detailButton}>
-              배송 조회
-            </button>
-          </div>
-        )}
+        <div className={styles.buttonContainer}>
+          <button
+            onClick={handleDetailClick}
+            disabled={isButtonDisabled}
+            className={`${styles.detailButton} ${
+              isButtonDisabled ? styles.disabledButton : ""
+            }`}
+          >
+            배송 조회
+          </button>
+        </div>
       </div>
     </div>
   );
