@@ -11,6 +11,7 @@ interface ProductBoxBaseProps {
   price: string;
   additionalContent: PageType; // ProductBoxOption
   cartQuantity?: number;
+  stock: number;
 }
 
 const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
@@ -20,7 +21,8 @@ const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
   description,
   price,
   additionalContent,
-  cartQuantity
+  cartQuantity,
+  stock
 }) => {
   return (
     <div className={styles.productBox}>
@@ -41,7 +43,7 @@ const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
         <p>{price}</p>
       </div>
       <div>
-        {additionalContent && <ProductBoxOption id={id} pageType={additionalContent} />}
+        {additionalContent && <ProductBoxOption id={id} stock={stock} pageType={additionalContent} />}
       </div>
     </div>
   );
