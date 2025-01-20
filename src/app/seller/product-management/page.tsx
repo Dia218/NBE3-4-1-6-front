@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useEffect, useState } from 'react';
-import PageLayout from '../../../components/PageLayout/PageLayout'; // Import PageLayout
+import PageLayout from '../../../components/PageLayout/PageLayout';
 import ListLayout from '../../../components/ListLayout/ListLayout';
 import { getProducts } from '../../../lib/api/sellerProductService';
 import { ProductDTO } from '../../../lib/types/ProductDTO';
@@ -12,6 +12,7 @@ import { SideButtonType } from '@/lib/enum/SideButtonType';
 const ProductManagementPage: React.FC = () => {
   const [products, setProducts] = useState<ProductDTO[]>([]); // 백엔드에서 ProductDTO 가져오기
   const [selectedProduct, setSelectedProduct] = useState<ProductDTO | null>(null); // 선택된 상품 정보 관리
+  const [isSidebarVisible, setIsSidebarVisible] = useState(false); // 사이드바 표시 여부
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -26,35 +27,61 @@ const ProductManagementPage: React.FC = () => {
     fetchProducts();
   }, []);
 
-  // 상품 클릭 시 사이드바 열기
-  const handleProductClick = (product: ProductDTO | null) => {
-    setSelectedProduct(product); // 선택된 상품을 설정하여 사이드바를 염
+  // sideButtonType 클릭 시 동작
+  const handleSideButtonClick = () => {
+    setSelectedProduct(null); // 새 상품 추가
+    setIsSidebarVisible(true); // 사이드바 열기
   };
 
-  // 외부 영역 클릭 시 사이드바 닫기
-  const handleBodyClick = (e: React.MouseEvent) => {
-    // 사이드바와 ListLayout 영역 외부 클릭 시에만 동작
-    if (selectedProduct && !(e.target instanceof HTMLElement && e.target.closest('.sidebar'))) {
-      setSelectedProduct(null); // 사이드바를 숨기기 위해 selectedProduct를 null로 설정
+  // 상품 클릭 시 사이드바 열기
+  const handleProductClick = (product: ProductDTO | null) => {
+    setSelectedProduct(product); // 선택된 상품을 설정
+    setIsSidebarVisible(true); // 사이드바 열기
+  };
+
+  // 외부 클릭 이벤트 처리
+  const handleOutsideClick = (e: MouseEvent) => {
+    const sidebar = document.querySelector('.sidebar');
+    if (
+      isSidebarVisible &&
+      sidebar &&
+      !sidebar.contains(e.target as Node)
+    ) {
+      setIsSidebarVisible(false); // 사이드바 숨기기
+      setSelectedProduct(null); // 선택된 상품 초기화
     }
   };
 
+  useEffect(() => {
+    if (isSidebarVisible) {
+      document.addEventListener('click', handleOutsideClick);
+    } else {
+      document.removeEventListener('click', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isSidebarVisible]);
+
   return (
-    <PageLayout 
+    <PageLayout
       mainContent={
-        <div onClick={handleBodyClick}> {/* 외부 클릭 시 사이드바 숨기기 */}
-          <ListLayout 
-            products={products} 
-            setSelectedProduct={handleProductClick} // 상품 클릭 시 selectedProduct 설정
-          />
-        </div>
+        <ListLayout
+          products={products}
+          setSelectedProduct={handleProductClick} // 상품 클릭 시 selectedProduct 설정
+        />
       }
       sidebarContent={
-        selectedProduct ? <ProductRequestLayout product={selectedProduct} /> : null // 상품이 선택되었을 때만 사이드바 표시
+        isSidebarVisible && ( // 사이드바 표시 여부에 따라 렌더링
+          <div className="sidebar">
+            <ProductRequestLayout product={selectedProduct} />
+          </div>
+        )
       }
       pageButtonType={PageButtonType.OrderManagement} // 전달된 페이지 버튼 타입
       targetPage="/seller/order-management" // targetPage 경로 지정
       sideButtonType={SideButtonType.NewProduct} // 상품 추가 버튼
+      sideButtonAction={handleSideButtonClick} // sideButtonType 클릭 시 핸들러 연결
     />
   );
 };

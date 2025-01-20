@@ -174,4 +174,8 @@ function ProductRequestLayout({ product }: { product: ProductDTO | null }) {
     );
 }
 
+<<<<<<< HEAD
 export default ProductRequestLayout;
+=======
+export default ProductRequestLayout;
+>>>>>>> e43d0ed93c8d2d38c7f10e7f9919b0f23f056c3b

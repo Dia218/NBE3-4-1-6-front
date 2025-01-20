@@ -2,49 +2,89 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import PageLayout from "@/components/PageLayout/PageLayout";
-import OrderList from "@/components/OrderHistoryContents/OrderList"; // OrderList import
-import { sellerOrderService } from "@/lib/api/sellerOrderService";
+import OrderList from "@/components/OrderHistoryContents/OrderList";
 import { PageDTO } from "@/lib/types/PageDTO";
-import { useSearchParams } from "next/navigation";
-import styles from "./OrderManagement.module.css";
 import { PageButtonType } from "@/lib/enum/PageButtonType";
+import { OrderDTO } from "@/lib/types/OrderDTO";
+import { buyerOrderService } from "@/lib/api/buyerOrderService";
+import styles from "./OrderHistory.module.css";
+import Pagination from "@/components/OrderManagementContents/Pagination";
+import OrderSummary from "@/components/OrderHistoryContents/OrderSummary";
 
 export default function OrderHistoryPage() {
   const searchParams = useSearchParams();
-  const email = searchParams.get("email"); // URL에서 이메일 파라미터 가져오기
-  const [orderPage, setOrderPage] = useState<PageDTO<any> | null>(null);
+  const email = searchParams.get('email');
+  const [orderPage, setOrderPage] = useState<PageDTO<OrderDTO> | null>(null);
   const [loading, setLoading] = useState(true);
+  const [selectedOrder, setSelectedOrder] = useState<OrderDTO | null>(null);
+  const [currentPage, setCurrentPage] = useState(0);
 
-  useEffect(() => {
-    if (email) {
-      fetchOrders(email); // 이메일이 있을 때만 주문 가져오기
-    }
-  }, [email]);
-
-  const fetchOrders = async (email: string) => {
+  const fetchOrders = async (email: string, page: number) => {
     try {
       setLoading(true);
-      const data = await sellerOrderService.getOrders(0, 10, email); // 이메일로 주문 검색
+      const data = await buyerOrderService.getOrders(email, page);
       setOrderPage(data);
-    } catch (err) {
-      console.error("Error fetching orders:", err);
-      setOrderPage(null);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
     } finally {
       setLoading(false);
     }
   };
 
+  useEffect(() => {
+    if (email) {
+      fetchOrders(email, currentPage);
+    }
+  }, [email, currentPage]);
+
+  const handleBodyClick = (e: React.MouseEvent) => {
+    if (selectedOrder && !(e.target instanceof HTMLElement && e.target.closest('.sidebar'))) {
+      setSelectedOrder(null);
+    }
+  };
+
+  const renderSidebarContent = () => (
+    selectedOrder && (
+      <OrderSummary 
+        selectedOrder={selectedOrder}
+        hasGuidingText={true}
+      />
+    )
+  );
+
+  const renderMainContent = () => (
+    <div className={styles.mainContainer} onClick={handleBodyClick}>
+      <div className={styles.pageContainer}>
+        <div className={styles.mainContent}>
+          <OrderList 
+            orderPage={orderPage}
+            loading={loading}
+            email={email || ''}
+            setSelectedOrder={setSelectedOrder}
+            refreshOrders={() => {
+              if (email) {
+                fetchOrders(email, currentPage);
+              }
+            }}
+          />
+        </div>
+      </div>
+      <Pagination 
+        currentPage={currentPage} 
+        totalPages={orderPage?.totalPages || 0} 
+        onPageChange={setCurrentPage}
+      />
+    </div>
+  );
+
   return (
     <PageLayout
-      mainContent={
-        <div className={styles.mainContent}>
-          <OrderList orderPage={orderPage} loading={loading} email={email} /> {/* OrderList 컴포넌트 사용 */}
-        </div>
-      }
-      pageButtonType={PageButtonType.ProductList} // 전달된 페이지 버튼 타입
-      targetPage="/buyer/product-list" // targetPage 경로 지정
-    >
-    </PageLayout>
+      mainContent={renderMainContent()}
+      sidebarContent={renderSidebarContent()}
+      pageButtonType={PageButtonType.ProductList}
+      targetPage="/buyer/product-list"
+    />
   );
 }
