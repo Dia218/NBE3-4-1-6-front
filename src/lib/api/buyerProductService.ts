@@ -1,7 +1,7 @@
-import { ProductDTO } from '../types/ProductDTO';
+import { ProductDTO } from "../types/ProductDTO";
 
 // Base URL for the backend API
-const BASE_URL = 'http://localhost:8080'; // Spring Boot 백엔드 URL
+const BASE_URL = "http://localhost:8080"; // Spring Boot 백엔드 URL
 
 /**
  * Fetches the cart list from the backend.
@@ -10,15 +10,15 @@ const BASE_URL = 'http://localhost:8080'; // Spring Boot 백엔드 URL
 export const getCartList = async (): Promise<ProductDTO[]> => {
   try {
     const response = await fetch(`${BASE_URL}/cart`, {
-      credentials: 'include'
+      credentials: "include",
     });
     if (!response.ok) {
-      throw new Error('Failed to fetch cart list');
+      throw new Error("Failed to fetch cart list");
     }
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Error fetching cart list:', error);
+    console.error("Error fetching cart list:", error);
     throw error;
   }
 };
@@ -29,17 +29,23 @@ export const getCartList = async (): Promise<ProductDTO[]> => {
  * @param quantity The quantity of the product to add.
  * @returns A promise resolving to void.
  */
-export const addToCart = async (productId: number, quantity: number): Promise<void> => {
+export const addToCart = async (
+  productId: number,
+  quantity: number
+): Promise<void> => {
   try {
-    const response = await fetch(`${BASE_URL}/add-to-cart?id=${productId}&quantity=${quantity}`, {
-      method: 'POST',
-      credentials: 'include'
-    });
+    const response = await fetch(
+      `${BASE_URL}/add-to-cart?id=${productId}&quantity=${quantity}`,
+      {
+        method: "POST",
+        credentials: "include",
+      }
+    );
     if (!response.ok) {
-      throw new Error('Failed to add product to cart');
+      throw new Error("Failed to add product to cart");
     }
   } catch (error) {
-    console.error('Error adding product to cart:', error);
+    console.error("Error adding product to cart:", error);
     throw error;
   }
 };
@@ -56,10 +62,10 @@ export const removeFromCart = async (productId: number): Promise<void> => {
       credentials: 'include'
     });
     if (!response.ok) {
-      throw new Error('Failed to remove product from cart');
+      throw new Error("Failed to remove product from cart");
     }
   } catch (error) {
-    console.error('Error removing product from cart:', error);
+    console.error("Error removing product from cart:", error);
     throw error;
   }
 };
@@ -70,17 +76,20 @@ export const removeFromCart = async (productId: number): Promise<void> => {
  * @param quantity The new quantity of the product.
  * @returns A promise resolving to void.
  */
-export const updateCartQuantity = async (productId: number, quantity: number): Promise<void> => {
+export const updateCartQuantity = async (
+  productId: number,
+  quantity: number
+): Promise<void> => {
   try {
     const response = await fetch(`${BASE_URL}/update-cart?id=${productId}&quantity=${quantity}`, {
       method: 'PATCH',
       credentials: 'include'
     });
     if (!response.ok) {
-      throw new Error('Failed to update cart quantity');
+      throw new Error("Failed to update cart quantity");
     }
   } catch (error) {
-    console.error('Error updating cart quantity:', error);
+    console.error("Error updating cart quantity:", error);
     throw error;
   }
 };
@@ -93,12 +102,12 @@ export const calculateTotalPrice = async (): Promise<number> => {
   try {
     const response = await fetch(`${BASE_URL}/total-price`);
     if (!response.ok) {
-      throw new Error('Failed to calculate total price');
+      throw new Error("Failed to calculate total price");
     }
     const totalPrice = await response.json();
     return totalPrice;
   } catch (error) {
-    console.error('Error calculating total price:', error);
+    console.error("Error calculating total price:", error);
     throw error;
   }
 };

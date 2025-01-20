@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState } from "react";
 import { OrderDTO } from "@/lib/types/OrderDTO";
 import { OrderStatus } from "@/lib/types/OrderStatusDTO";
 import ListLayout from "@/components/ListLayout/ListLayout";
@@ -12,7 +12,12 @@ interface OrderBoxProps {
   onCancelOrder?: (orderId: number) => void;
 }
 
-const OrderBox = ({ order, onSelect, hasCancelButton = false, onCancelOrder }: OrderBoxProps) => {
+const OrderBox = ({
+  order,
+  onSelect,
+  hasCancelButton = false,
+  onCancelOrder,
+}: OrderBoxProps) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleConfirmCancel = async () => {
@@ -22,8 +27,8 @@ const OrderBox = ({ order, onSelect, hasCancelButton = false, onCancelOrder }: O
         setIsModalOpen(false);
       }
     } catch (error) {
-      console.error('주문 취소 실패:', error);
-      alert('주문 취소에 실패했습니다.');
+      console.error("주문 취소 실패:", error);
+      alert("주문 취소에 실패했습니다.");
     }
   };
 
@@ -31,15 +36,19 @@ const OrderBox = ({ order, onSelect, hasCancelButton = false, onCancelOrder }: O
     <>
       <div className={styles.orderGroup} onClick={() => onSelect(order)}>
         <div className={styles.orderHeader}>
-          <p>{order.customerEmail}</p>
           <p>
-            {`${new Date(order.orderCreatedAt).toLocaleString()} ${OrderStatus[order.orderStatus as unknown as keyof typeof OrderStatus]}`}
+            {order.customerEmail}
+            {`${new Date(order.orderCreatedAt).toLocaleString()} ${
+              OrderStatus[
+                order.orderStatus as unknown as keyof typeof OrderStatus
+              ]
+            }`}
           </p>
         </div>
         <ListLayout
           products={order.orderDetails
-            .filter(detail => detail.product)
-            .map(detail => ({
+            .filter((detail) => detail.product)
+            .map((detail) => ({
               ...detail.product,
               cartQuantity: detail.productQuantity,
             }))}
@@ -47,8 +56,8 @@ const OrderBox = ({ order, onSelect, hasCancelButton = false, onCancelOrder }: O
         <div className={styles.totalAmount}>
           <div className={styles.buttonWrapper}>
             {hasCancelButton && (
-              <button 
-                className={styles.cancelButton} 
+              <button
+                className={styles.cancelButton}
                 onClick={(e) => {
                   e.stopPropagation();
                   setIsModalOpen(true);

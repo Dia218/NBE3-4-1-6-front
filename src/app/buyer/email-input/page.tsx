@@ -44,7 +44,7 @@ const EmailInputPage = () => {
   return (
     <div className="min-h-screen bg-[#3d3937] py-8">
       <h1 className="text-3xl font-bold text-center mb-8 text-white">
-        배송 조회
+        주문 조회
       </h1>
 
       <div className="max-w-md mx-auto px-4">

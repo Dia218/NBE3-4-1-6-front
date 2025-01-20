@@ -1,10 +1,10 @@
-import React from 'react';
-import OrderBox from '@/components/OrderBox/OrderBox';
+import React from "react";
+import OrderBox from "@/components/OrderBox/OrderBox";
 import { OrderDTO } from "@/lib/types/OrderDTO";
 import { PageDTO } from "@/lib/types/PageDTO";
 import styles from "./OrderList.module.css";
-import { buyerOrderService } from '@/lib/api/buyerOrderService';
-import { OrderStatus } from '@/lib/types/OrderStatusDTO';
+import { buyerOrderService } from "@/lib/api/buyerOrderService";
+import { OrderStatus } from "@/lib/types/OrderStatusDTO";
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString);
@@ -24,19 +24,19 @@ interface OrderListProps {
   refreshOrders: () => void;
 }
 
-const OrderList: React.FC<OrderListProps> = ({ 
-  orderPage, 
-  loading, 
+const OrderList: React.FC<OrderListProps> = ({
+  orderPage,
+  loading,
   setSelectedOrder,
-  refreshOrders 
+  refreshOrders,
 }) => {
   const handleCancelOrder = async (orderId: number) => {
     try {
       await buyerOrderService.cancelOrder(orderId);
       refreshOrders();
     } catch (error) {
-      console.error('주문 취소 실패:', error);
-      alert('주문 취소에 실패했습니다.');
+      console.error("주문 취소 실패:", error);
+      alert("주문 취소에 실패했습니다.");
     }
   };
 
@@ -50,7 +50,9 @@ const OrderList: React.FC<OrderListProps> = ({
           key={order.orderId}
           order={order}
           onSelect={setSelectedOrder}
-          hasCancelButton={order.orderStatus as OrderStatus === 'ORDERED' as OrderStatus}
+          hasCancelButton={
+            (order.orderStatus as OrderStatus) === ("ORDERED" as OrderStatus)
+          }
           onCancelOrder={handleCancelOrder}
         />
       ))}
