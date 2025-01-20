@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ProductBoxOption.module.css';
 import { PageType } from '../../lib/enum/PageType';
-import { addToCart } from '@/lib/api/buyerProductService';
+import { addToCart, removeFromCart, updateCartQuantity } from '@/lib/api/buyerProductService';
 
 interface ProductBoxOptionProps {
   id: number;
@@ -19,6 +19,19 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, stock, pageType
 
   const handleAddToCart = async () => {
     await addToCart(id, quantity);
+    alert('장바구니에 추가되었습니다.');
+  }
+
+  const handleAdapt = async () => {
+    await updateCartQuantity(id, quantity);
+    alert('장바구니가 업데이트되었습니다.');
+    window.location.href = window.location.href; 
+  }
+
+  const handleDelete = async () => {
+    await removeFromCart(id);
+    alert('장바구니에서 삭제되었습니다.');
+    window.location.href = window.location.href; 
   }
 
   const renderOptions = () => {
@@ -41,12 +54,12 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, stock, pageType
           <div className={styles.buttonsContainer}>
             <input
               type="number"
-              value={stock}
+              defaultValue={stock}
               onChange={handleQuantityChange}
               className={styles.quantityInput}
             />
-            <button className={styles.addButton}>적용</button>
-            <button className={styles.deleteButton}>삭제</button>
+            <button onClick={handleAdapt} className={styles.addButton}>적용</button>
+            <button onClick={handleDelete} className={styles.deleteButton}>삭제</button>
           </div>
         );
 
