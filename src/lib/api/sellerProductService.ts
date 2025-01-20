@@ -1,4 +1,5 @@
 import { ProductDTO } from '../types/ProductDTO';
+import { PageDTO } from '../types/PageDTO';
 import { ErrorDetails } from "../types/ErrorDetails";
 import { ProductRequestDTO } from "../types/ProductRequestDTO";
 
@@ -10,13 +11,15 @@ const BASE_URL = 'http://localhost:8080/seller/products';
  * @param page The page number to fetch (default is 0).
  * @returns A promise resolving to an array of ProductDTO objects.
  */
-export const getProducts = async (page: number = 0): Promise<ProductDTO[]> => {
-  const response = await fetch(`${BASE_URL}?page=${page}`);
+export const getProducts = async (page: number = 0): Promise<PageDTO<ProductDTO>> => {
+  const response = await fetch(`${BASE_URL}?page=${page}`, {
+    credentials: 'include'
+  });
   if (!response.ok) {
     throw new Error('Failed to fetch products');
   }
   const data = await response.json();
-  return data.content; // Assuming the response follows a Spring Boot `Page` structure
+  return data; // Assuming the response follows a Spring Boot `Page` structure
 };
 
 /**

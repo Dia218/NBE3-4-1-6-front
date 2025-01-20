@@ -6,7 +6,7 @@ import styles from './ListLayout.module.css';
 
 interface ListLayoutProps {
   pageType?: PageType;
-  products: (ProductDTO & { cartQuantity?: number })[];
+  products: ProductDTO[];
   setSelectedProduct?: (product: ProductDTO | null) => void; // 상위 컴포넌트로 선택된 상품을 전달하는 함수
 }
 
@@ -23,12 +23,13 @@ const ListLayout: React.FC<ListLayoutProps> = ({ pageType = PageType.Default, pr
       {products.map((product) => (
         <div key={product.productId} onClick={() => handleProductClick(product)}>
           <ProductBoxBase
+            id = {product.productId}
             image={product.productImageURL}
             name={product.productName}
             description={product.productDescription}
             price={product.productPrice.toString()}
+            stock={product.productStock}
             additionalContent={pageType}
-            cartQuantity={product.cartQuantity}
           />
         </div>
       ))}

@@ -9,7 +9,9 @@ const BASE_URL = "http://localhost:8080"; // Spring Boot 백엔드 URL
  */
 export const getCartList = async (): Promise<ProductDTO[]> => {
   try {
-    const response = await fetch(`${BASE_URL}/cart`);
+    const response = await fetch(`${BASE_URL}/cart`, {
+      credentials: "include",
+    });
     if (!response.ok) {
       throw new Error("Failed to fetch cart list");
     }
@@ -36,6 +38,7 @@ export const addToCart = async (
       `${BASE_URL}/add-to-cart?id=${productId}&quantity=${quantity}`,
       {
         method: "POST",
+        credentials: "include",
       }
     );
     if (!response.ok) {
