@@ -5,7 +5,7 @@ import { submitOrder } from "@/lib/api/buyerOrderService";
 import { OrderRequestDTO } from "@/lib/types/OrderRequestDTO";
 
 export default function OrderRequestComponent (
-    { totalPrice } : { totalPrice: number }
+    { totalPrice, fetchProducts } : { totalPrice: number, fetchProducts: () => void }
 ) {
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -46,7 +46,8 @@ export default function OrderRequestComponent (
 
         // fetch 전송 (아래의 코드 api로 분리 가능)
         await submitOrder(formData);
-        
+        form.reset(); 
+        fetchProducts();        
     }
 
     return (

@@ -16,24 +16,24 @@ const CartPage: React.FC = () => {
   const [isSidebarVisible, setIsSidebarVisible] = useState(false); // 사이드바 표시 여부
   const [totalPrice, setTotalPrice] = useState<number>(0); // 총 결제 금액 상태 추가
 
+  const fetchProducts = async () => {
+    try {
+      const fetchedProducts = await getCartList();
+      setProducts(fetchedProducts);
+      console.log('fetchedProducts:', fetchedProducts);
+
+      // 총 결제 금액 계산
+      const calculatedTotalPrice = fetchedProducts.reduce(
+        (sum, product) => sum + product.productPrice * (product.productStock || 1),
+        0
+      );
+      setTotalPrice(calculatedTotalPrice);
+    } catch (error) {
+      console.error('Error fetching products:', error);
+    }
+  };
+
   useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const fetchedProducts = await getCartList();
-        setProducts(fetchedProducts);
-        console.log('fetchedProducts:', fetchedProducts);
-
-        // 총 결제 금액 계산
-        const calculatedTotalPrice = fetchedProducts.reduce(
-          (sum, product) => sum + product.productPrice * (product.productStock || 1),
-          0
-        );
-        setTotalPrice(calculatedTotalPrice);
-      } catch (error) {
-        console.error('Error fetching products:', error);
-      }
-    };
-
     fetchProducts();
   }, []);
 
@@ -70,15 +70,23 @@ const CartPage: React.FC = () => {
       <div className={styles.pageLayout}>
         <PageLayout 
           mainContent={
-            <ListLayout 
-              pageType={PageType.ChangeCart}
-              products={products}
-            />
+            products.length === 0 ? (  // 장바구니가 비었을 경우 메시지 출력
+              <div className={styles.emptyCartMessage}>
+                장바구니가 비었습니다.
+              </div>
+            ) : (
+              <ListLayout 
+                pageType={PageType.ChangeCart}
+                products={products}
+              />
+            )
           } 
           sidebarContent={
             isSidebarVisible && ( // 사이드바 표시 여부에 따라 렌더링
               <div className="sidebar">
-                <OrderRequestComponent totalPrice={totalPrice} // 상품 삭제 후 목록 갱신
+                <OrderRequestComponent 
+                totalPrice={totalPrice} 
+                fetchProducts={fetchProducts}
                 />
               </div>
             )
