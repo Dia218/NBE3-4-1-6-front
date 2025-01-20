@@ -4,6 +4,7 @@
 
 :root {
   --background-color: #b9a48a;
+  --text-title-color: #3d3937;
   --text-color: #3d3937;
   --text-secondary-color: #554d49;
   
@@ -17,7 +18,12 @@
   --button-basic-background-color: black;
   --button-basic-hover-color: rgb(34, 34, 34);
   --button-basic-text-color: white;
-  
+
+  --button-reverse-background-color: rgb(34, 34, 34);
+  --button-reverse-hover-color: #686868;
+  --button-reverse-border-color: black;
+  --button-reverse-text-color: white;
+
   --button-accent-background-color: white;
   --button-accent-hover-color: rgb(158, 0, 0);
   --button-accent-text-color: red;
@@ -30,7 +36,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background-color: #3d3937;
-    --text-color: #f5f5f5;
+    --text-title-color: #b9a48a;
   }
 }
 

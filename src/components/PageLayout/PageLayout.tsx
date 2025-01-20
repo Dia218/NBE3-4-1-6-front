@@ -54,7 +54,7 @@ const PageLayout: React.FC<PageLayoutProps> = ({
       </div>
       <div className={styles.body}>
         <main className={styles.content}>{mainContent}</main> {/* mainContent: 메인 콘텐츠 */}
-        {sidebarContent && <aside className={styles.sidebar}>{sidebarContent}</aside>} {/* sidebarContent: 우측 사이드바 (선택) */}
+        {sidebarContent && <aside className={styles.sidebar}>{sidebarContent}</aside>} {/* sidebarContent: 우측 사이드바 */}
       </div>
     </div>
   );
