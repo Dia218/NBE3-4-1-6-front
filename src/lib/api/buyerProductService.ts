@@ -57,12 +57,10 @@ export const addToCart = async (
  */
 export const removeFromCart = async (productId: number): Promise<void> => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/remove-from-cart?id=${productId}`,
-      {
-        method: "DELETE",
-      }
-    );
+    const response = await fetch(`${BASE_URL}/remove-from-cart?id=${productId}`, {
+      method: 'DELETE',
+      credentials: 'include'
+    });
     if (!response.ok) {
       throw new Error("Failed to remove product from cart");
     }
@@ -83,12 +81,10 @@ export const updateCartQuantity = async (
   quantity: number
 ): Promise<void> => {
   try {
-    const response = await fetch(
-      `${BASE_URL}/update-cart?id=${productId}&quantity=${quantity}`,
-      {
-        method: "PATCH",
-      }
-    );
+    const response = await fetch(`${BASE_URL}/update-cart?id=${productId}&quantity=${quantity}`, {
+      method: 'PATCH',
+      credentials: 'include'
+    });
     if (!response.ok) {
       throw new Error("Failed to update cart quantity");
     }
