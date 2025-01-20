@@ -41,30 +41,43 @@ const ProductManagementPage: React.FC = () => {
     setIsSidebarVisible(true); // 사이드바 열기
   };
 
-  // 외부 영역 클릭 시 사이드바 닫기
-  const handleBodyClick = (e: React.MouseEvent) => {
+  // 외부 클릭 이벤트 처리
+  const handleOutsideClick = (e: MouseEvent) => {
+    const sidebar = document.querySelector('.sidebar');
     if (
       isSidebarVisible &&
-      !(e.target instanceof HTMLElement && e.target.closest('.sidebar'))
+      sidebar &&
+      !sidebar.contains(e.target as Node)
     ) {
       setIsSidebarVisible(false); // 사이드바 숨기기
       setSelectedProduct(null); // 선택된 상품 초기화
     }
   };
 
+  useEffect(() => {
+    if (isSidebarVisible) {
+      document.addEventListener('click', handleOutsideClick);
+    } else {
+      document.removeEventListener('click', handleOutsideClick);
+    }
+    return () => {
+      document.removeEventListener('click', handleOutsideClick);
+    };
+  }, [isSidebarVisible]);
+
   return (
     <PageLayout
       mainContent={
-        <div onClick={handleBodyClick}> {/* 외부 클릭 시 사이드바 숨기기 */}
-          <ListLayout
-            products={products}
-            setSelectedProduct={handleProductClick} // 상품 클릭 시 selectedProduct 설정
-          />
-        </div>
+        <ListLayout
+          products={products}
+          setSelectedProduct={handleProductClick} // 상품 클릭 시 selectedProduct 설정
+        />
       }
       sidebarContent={
         isSidebarVisible && ( // 사이드바 표시 여부에 따라 렌더링
-          <ProductRequestLayout product={selectedProduct} />
+          <div className="sidebar">
+            <ProductRequestLayout product={selectedProduct} />
+          </div>
         )
       }
       pageButtonType={PageButtonType.OrderManagement} // 전달된 페이지 버튼 타입
