@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './ProductBoxOption.module.css';
 import { PageType } from '../../lib/enum/PageType';
 import { addToCart, removeFromCart, updateCartQuantity } from '@/lib/api/buyerProductService';
@@ -66,7 +66,7 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, stock, pageType
       default:
         return (
           <div className={styles.buttonsContainer}>
-            <div className={styles.quantityBox}>{quantity}</div>
+            <div className={styles.quantityBox}>{stock}</div>
           </div>
         );
     }
