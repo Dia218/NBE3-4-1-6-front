@@ -28,8 +28,8 @@ const EmailInputPage = () => {
     setError(null);
 
     try {
-      const response = await buyerLoginService.validateEmail(email);
-      if (response.success) {
+      const isValid = await buyerLoginService.validateEmail(email);
+      if (isValid) {
         router.push(`/buyer/order-history?email=${encodeURIComponent(email)}`);
       } else {
         setError("주문 내역이 없는 이메일입니다.");

@@ -2,6 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { useSearchParams } from 'next/navigation';
 import PageLayout from "@/components/PageLayout/PageLayout";
 import OrderList from "@/components/OrderHistoryContents/OrderList";
 import { PageDTO } from "@/lib/types/PageDTO";
@@ -12,30 +13,31 @@ import styles from "./OrderHistory.module.css";
 import Pagination from "@/components/OrderManagementContents/Pagination";
 import OrderSummary from "@/components/OrderHistoryContents/OrderSummary";
 
-const TEST_EMAIL = 'customer1@example.com';  // 테스트용 이메일 상수화
-
 export default function OrderHistoryPage() {
+  const searchParams = useSearchParams();
+  const email = searchParams.get('email');
   const [orderPage, setOrderPage] = useState<PageDTO<OrderDTO> | null>(null);
   const [loading, setLoading] = useState(true);
   const [selectedOrder, setSelectedOrder] = useState<OrderDTO | null>(null);
-  const [currentPage, setCurrentPage] = useState(0);  // 0부터 시작하도록 수정
+  const [currentPage, setCurrentPage] = useState(0);
 
-  const fetchOrders = async (email: string, page: number = 0) => {
-    setLoading(true);
+  const fetchOrders = async (email: string, page: number) => {
     try {
+      setLoading(true);
       const data = await buyerOrderService.getOrders(email, page);
       setOrderPage(data);
-    } catch (err) {
-      console.error("Error fetching orders:", err);
-      setOrderPage(null);
+    } catch (error) {
+      console.error("Error fetching orders:", error);
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    fetchOrders(TEST_EMAIL, currentPage);
-  }, [currentPage]);
+    if (email) {
+      fetchOrders(email, currentPage);
+    }
+  }, [email, currentPage]);
 
   const handleBodyClick = (e: React.MouseEvent) => {
     if (selectedOrder && !(e.target instanceof HTMLElement && e.target.closest('.sidebar'))) {
@@ -59,16 +61,20 @@ export default function OrderHistoryPage() {
           <OrderList 
             orderPage={orderPage}
             loading={loading}
-            email={TEST_EMAIL}
+            email={email || ''}
             setSelectedOrder={setSelectedOrder}
-            refreshOrders={() => fetchOrders(TEST_EMAIL)}
+            refreshOrders={() => {
+              if (email) {
+                fetchOrders(email, currentPage);
+              }
+            }}
           />
         </div>
       </div>
       <Pagination 
         currentPage={currentPage} 
         totalPages={orderPage?.totalPages || 0} 
-        onPageChange={setCurrentPage}  // 직접 setCurrentPage 전달
+        onPageChange={setCurrentPage}
       />
     </div>
   );
