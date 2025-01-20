@@ -17,7 +17,6 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, pageType }) => 
   };
 
   const handleAddToCart = async () => {
-    console.log(id, quantity);
     await addToCart(id, quantity);
   }
 
