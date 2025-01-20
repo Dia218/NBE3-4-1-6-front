@@ -1,25 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import styles from './ProductBoxOption.module.css';
 import { PageType } from '../../lib/enum/PageType';
+import { addToCart } from '@/lib/api/buyerProductService';
 
 interface ProductBoxOptionProps {
+  id: number;
   pageType: PageType;
-  cartQuantity?: number;
 }
 
-const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ pageType, cartQuantity}) => {
-  const [quantity, setQuantity] = useState<number>(cartQuantity ?? 1);
+const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, pageType }) => {
+  const [quantity, setQuantity] = useState<number>(1);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newQuantity = Math.max(1, parseInt(e.target.value, 10)); // Minimum quantity is 1
     setQuantity(newQuantity);
   };
 
-  useEffect(() => {
-    if (cartQuantity !== undefined && pageType === PageType.ChangeCart) {
-      setQuantity(cartQuantity);
-    }
-  }, [pageType, cartQuantity]);
+  const handleAddToCart = async () => {
+    await addToCart(id, quantity);
+  }
 
   const renderOptions = () => {
     switch (pageType) {
@@ -32,7 +31,7 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ pageType, cartQuant
               onChange={handleQuantityChange}
               className={styles.quantityInput}
             />
-            <button className={styles.addButton}>장바구니 추가</button>
+            <button onClick={handleAddToCart} className={styles.addButton}>장바구니 추가</button>
           </div>
         );
 

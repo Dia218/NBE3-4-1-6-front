@@ -4,6 +4,7 @@ import { PageType } from '../../lib/enum/PageType';
 import ProductBoxOption from './ProductBoxOption';
 
 interface ProductBoxBaseProps {
+  id: number;
   image: string;
   name: string;
   description: string;
@@ -13,6 +14,7 @@ interface ProductBoxBaseProps {
 }
 
 const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
+  id,
   image,
   name,
   description,
@@ -39,7 +41,7 @@ const ProductBoxBase: React.FC<ProductBoxBaseProps> = ({
         <p>{price}</p>
       </div>
       <div>
-        {additionalContent && <ProductBoxOption pageType={additionalContent} cartQuantity={cartQuantity} />}
+        {additionalContent && <ProductBoxOption id={id} pageType={additionalContent} />}
       </div>
     </div>
   );
