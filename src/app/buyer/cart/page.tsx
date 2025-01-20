@@ -17,6 +17,7 @@ const CartPage: React.FC = () => {
       try {
         const fetchedProducts = await getCartList();
         setProducts(fetchedProducts);
+        console.log('fetchedProducts:', fetchedProducts);
       } catch (error) {
         console.error('Error fetching products:', error);
       }

@@ -19,7 +19,7 @@ const ProductListPage: React.FC = () => {
     const fetchProducts = async () => {
       try {
         const fetchedProducts = await getProducts();
-        setProducts(fetchedProducts);
+        setProducts(fetchedProducts.items);
       } catch (error) {
         console.error('Error fetching products:', error);
       }
@@ -40,9 +40,8 @@ const ProductListPage: React.FC = () => {
           mainContent={
             <ListLayout 
               pageType={PageType.AddCart}
-              products={products} setSelectedProduct={function (product: ProductDTO | null): void {
-                throw new Error('Function not implemented.');
-              } }            />
+              products={products}          
+            />
           }
           pageButtonType={PageButtonType.OrderHistory} // 전달된 페이지 버튼 타입
           targetPage="/buyer/email-input" // targetPage 경로 지정
