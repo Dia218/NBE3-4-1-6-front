@@ -17,7 +17,7 @@ const ProductManagementPage: React.FC = () => {
   const fetchProducts = async () => {
     try {
       const fetchedProducts = await getProducts();
-      setProducts(fetchedProducts);
+      setProducts(fetchedProducts.items);
     } catch (error) {
       console.error('Error fetching products:', error);
     }

@@ -5,10 +5,11 @@ import { addToCart } from '@/lib/api/buyerProductService';
 
 interface ProductBoxOptionProps {
   id: number;
+  stock: number;
   pageType: PageType;
 }
 
-const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, pageType }) => {
+const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, stock, pageType }) => {
   const [quantity, setQuantity] = useState<number>(1);
 
   const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -40,7 +41,7 @@ const ProductBoxOption: React.FC<ProductBoxOptionProps> = ({ id, pageType }) => 
           <div className={styles.buttonsContainer}>
             <input
               type="number"
-              value={quantity}
+              value={stock}
               onChange={handleQuantityChange}
               className={styles.quantityInput}
             />

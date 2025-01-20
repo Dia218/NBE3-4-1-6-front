@@ -20,7 +20,6 @@ const CartPage: React.FC = () => {
       try {
         const fetchedProducts = await getCartList();
         setProducts(fetchedProducts);
-
         console.log('fetchedProducts:', fetchedProducts);
 
         // 총 결제 금액 계산
@@ -29,7 +28,6 @@ const CartPage: React.FC = () => {
           0
         );
         setTotalPrice(calculatedTotalPrice);
-
       } catch (error) {
         console.error('Error fetching products:', error);
       }

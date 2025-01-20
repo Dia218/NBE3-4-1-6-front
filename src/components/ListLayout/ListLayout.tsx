@@ -28,6 +28,7 @@ const ListLayout: React.FC<ListLayoutProps> = ({ pageType = PageType.Default, pr
             name={product.productName}
             description={product.productDescription}
             price={product.productPrice.toString()}
+            stock={product.productStock}
             additionalContent={pageType}
           />
         </div>
